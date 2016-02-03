@@ -31,6 +31,31 @@
 #include <asf.h>
 #include <util/delay.h>
 
+#define BIT(x) (1<<(x)) 
+
+void wait(int);
+void cleanLeds(int);
+
+int main (void)
+{
+	/* Insert system clock initialization code here (sysclk_init()). */
+
+	board_init();
+	DDRD = 0b11111111;  //all pins are set to output
+
+	//while true loop
+	while(1)
+	{
+		PORTD =  BIT(7);	//light pin 7 of port D
+		wait(500);
+		PORTD = BIT(6);		//light pin 6 of port D
+		wait(500);
+		
+	}
+
+	return 1;
+}
+
 void wait(int milliseconds)
 {
 	for(int i = 0; i< milliseconds; i++)
@@ -46,52 +71,6 @@ void cleanLeds(int milliseconds)
 	PORTC = 0b00000000;
 	PORTD = 0b00000000;
 }
-
-int main (void)
-{
-	/* Insert system clock initialization code here (sysclk_init()). */
-
-	board_init();
-	DDRA = 0b11111111;
-	DDRB = 0b11111111;
-	DDRC = 0b11111111;
-	DDRD = 0b11111111;  //all pins are set to output
-	DDRE = 0b11111111;
-	DDRF = 0b11111111;
-	DDRG = 0b11111111;
-	
-
-	//while true loop
-	while(1)
-	{
-		for(int i = 0; i <8; i++)
-		{
-			PORTA = PORTA | (1<<i);
-			wait(250);
-		}
-		for(int i = 0; i <8; i++)
-		{
-			PORTB = PORTB | (0b10000000>>i);
-			wait(250);
-		}
-		for(int i = 0; i <8; i++)
-		{
-			PORTC = PORTC | (1<<i);
-			wait(250);
-		}
-		for(int i = 0; i <8; i++)
-		{
-			PORTD = PORTD | (0b10000000>>i);
-			wait(250);
-		}
-		
-		cleanLeds(10);
-		
-	}
-
-	return 1;
-}
-
 
 void lampsSnake()
 {
