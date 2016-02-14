@@ -47,10 +47,16 @@ int main (void)
 	{
 		if (PINC)
 		{
-			if(buttonPressed) buttonPressed = false;
-			else buttonPressed = true;
+			if(buttonPressed)
+			{
+				buttonPressed = false;
+			} 
+			else 
+			{
+				buttonPressed = true;
+			}
 		}
-		if(buttonPressed & PINC) //controleert of C0 is ingedrukt;
+		if(buttonPressed) 
 		{
 			PORTD ^= BIT(7);
 			wait(250);
