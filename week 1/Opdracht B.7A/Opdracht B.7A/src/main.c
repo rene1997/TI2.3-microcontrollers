@@ -60,31 +60,33 @@ int main (void)
 
 	//hier wordt gecontroleerd welke knop is ingedrukt, en welke state actief is
 	state = startState;
-	if(PIND5 && (state == startState || state == s1State))
+	while (1)
 	{
-		s2(&state);
+		if(PIND5 && (state == startState || state == s1State))
+		{
+			s2(&state);
+		}
+		else if(PIND5 && state == s2State)
+		{
+			s3(&state);
+		}
+		else if(PIND5 && state == s3State)
+		{
+			end(&state);
+		}
+		if(PIND6 && (state == s2State || state == startState))
+		{
+			s1(&state);
+		}
+		else if(PIND6 && state == s3State)
+		{
+			end(&state);
+		}
+		if(PIND7 && !state == startState)
+		{
+			start(&state);
+		}
 	}
-	else if(PIND5 && state == s2State)
-	{
-		s3(&state);
-	}
-	else if(PIND5 && state == s3State)
-	{
-		end(&state);
-	}
-	if(PIND6 && (state == s2State || state == startState))
-	{
-		s1(&state);
-	}
-	else if(PIND6 && state == s3State)
-	{
-		end(&state);
-	}
-	if(PIND7 && !state == startState)
-	{
-		start(&state);
-	}
-
 }
 
 void start(int* state)
