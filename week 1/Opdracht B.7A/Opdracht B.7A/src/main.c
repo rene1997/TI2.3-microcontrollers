@@ -33,6 +33,7 @@
 
 #define BIT(x) (1<<(x))	
 
+//deze enum bevat alle states die mogelijk zijn
 enum
 {
 	startState,
@@ -42,11 +43,11 @@ enum
 	endState
 }CurrentState;
 
-void start(int* state);
-void s1(int* state);
-void s2(int* state);
-void s3(int* state);
-void end(int* state);
+void start(int state);
+void s1(int state);
+void s2(int state);
+void s3(int state);
+void end(int state);
 
 void wait(int milliseconds);
 
@@ -64,32 +65,32 @@ int main (void)
 	{
 		if(PIND5 && (state == startState || state == s1State))
 		{
-			s2(&state);
+			s2(state);
 		}
 		else if(PIND5 && state == s2State)
 		{
-			s3(&state);
+			s3(state);
 		}
 		else if(PIND5 && state == s3State)
 		{
-			end(&state);
+			end(state);
 		}
 		if(PIND6 && (state == s2State || state == startState))
 		{
-			s1(&state);
+			s1(state);
 		}
 		else if(PIND6 && state == s3State)
 		{
-			end(&state);
+			end(state);
 		}
 		if(PIND7 && !state == startState)
 		{
-			start(&state);
+			start(state);
 		}
 	}
 }
 
-void start(int* state)
+void start(int state)
 {
 	state = startState;
 	PORTC ^= BIT(1);
@@ -97,7 +98,7 @@ void start(int* state)
 	PORTC = 0b00000000;
 }
 
-void s1(int* state)
+void s1(int state)
 {
 	state = s1State;
 	PORTC ^= BIT(2);
@@ -105,7 +106,7 @@ void s1(int* state)
 	PORTC = 0b00000000;
 }
 
-void s2(int* state)
+void s2(int state)
 {
 	state = s2State;
 	PORTC ^= BIT(3);
@@ -113,7 +114,7 @@ void s2(int* state)
 	PORTC = 0b00000000;
 }
 
-void s3(int* state)
+void s3(int state)
 {
 	state = s3State;
 	PORTC ^= BIT(4);
@@ -121,7 +122,7 @@ void s3(int* state)
 	PORTC = 0b00000000;
 }
 
-void end(int* state){
+void end(int state){
 	state = endState;
 	PORTC ^= BIT(5);
 	wait(1000);

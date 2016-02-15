@@ -3,31 +3,31 @@ Opdracht B.7A.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800100  00800100  000001c8  2**0
+  0 .data         00000000  00800100  00800100  00000164  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00000174  00000000  00000000  00000054  2**1
+  1 .text         00000110  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  000001c8  2**0
+  2 .comment      00000030  00000000  00000000  00000164  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000001f8  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000194  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000070  00000000  00000000  00000234  2**0
+  4 .debug_aranges 00000070  00000000  00000000  000001d0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   000003ce  00000000  00000000  000002a4  2**0
+  5 .debug_info   00000392  00000000  00000000  00000240  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 000001e5  00000000  00000000  00000672  2**0
+  6 .debug_abbrev 000001dc  00000000  00000000  000005d2  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   0000083b  00000000  00000000  00000857  2**0
+  7 .debug_line   00000811  00000000  00000000  000007ae  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  000000b8  00000000  00000000  00001094  2**2
+  8 .debug_frame  000000a8  00000000  00000000  00000fc0  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00011236  00000000  00000000  0000114c  2**0
+  9 .debug_str    00011296  00000000  00000000  00001068  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000166  00000000  00000000  00012382  2**0
+ 10 .debug_loc    0000011e  00000000  00000000  000122fe  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000050  00000000  00000000  000124e8  2**0
+ 11 .debug_ranges 00000050  00000000  00000000  0001241c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_macro  00003a44  00000000  00000000  00012538  2**0
+ 12 .debug_macro  00003a44  00000000  00000000  0001246c  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -125,27 +125,21 @@ Disassembly of section .text:
   a2:	a0 30       	cpi	r26, 0x00	; 0
   a4:	b2 07       	cpc	r27, r18
   a6:	e1 f7       	brne	.-8      	; 0xa0 <.do_clear_bss_loop>
-  a8:	38 d0       	rcall	.+112    	; 0x11a <main>
-  aa:	62 c0       	rjmp	.+196    	; 0x170 <_exit>
+  a8:	26 d0       	rcall	.+76     	; 0xf6 <main>
+  aa:	30 c0       	rjmp	.+96     	; 0x10c <_exit>
 
 000000ac <__bad_interrupt>:
   ac:	a9 cf       	rjmp	.-174    	; 0x0 <__vectors>
 
 000000ae <board_init>:
-#include <compiler.h>
-#include <conf_board.h>
-
-
-void board_init(void)
-{
   ae:	08 95       	ret
 
 000000b0 <wait>:
-void s3(int* state)
+void start(int state)
 {
-	state = s3State;
-	PORTC ^= BIT(4);
-	wait(1000);
+	state = startState;
+	PORTC ^= BIT(1);
+	wait(1000); 
 	PORTC = 0b00000000;
   b0:	18 16       	cp	r1, r24
   b2:	19 06       	cpc	r1, r25
@@ -165,139 +159,80 @@ void s3(int* state)
   ce:	a9 f7       	brne	.-22     	; 0xba <wait+0xa>
   d0:	08 95       	ret
 
-000000d2 <start>:
+000000d2 <s1>:
+}
+
+void s1(int state)
+{
+	state = s1State;
+	PORTC ^= BIT(2);
   d2:	95 b3       	in	r25, 0x15	; 21
-  d4:	82 e0       	ldi	r24, 0x02	; 2
+  d4:	84 e0       	ldi	r24, 0x04	; 4
   d6:	89 27       	eor	r24, r25
   d8:	85 bb       	out	0x15, r24	; 21
+	wait(1000); 
   da:	88 ee       	ldi	r24, 0xE8	; 232
   dc:	93 e0       	ldi	r25, 0x03	; 3
   de:	e8 df       	rcall	.-48     	; 0xb0 <wait>
+	PORTC = 0b00000000;
   e0:	15 ba       	out	0x15, r1	; 21
   e2:	08 95       	ret
 
-000000e4 <s1>:
+000000e4 <s2>:
+}
+
+void s2(int state)
+{
+	state = s2State;
+	PORTC ^= BIT(3);
   e4:	95 b3       	in	r25, 0x15	; 21
-  e6:	84 e0       	ldi	r24, 0x04	; 4
+  e6:	88 e0       	ldi	r24, 0x08	; 8
   e8:	89 27       	eor	r24, r25
   ea:	85 bb       	out	0x15, r24	; 21
+	wait(1000);
   ec:	88 ee       	ldi	r24, 0xE8	; 232
   ee:	93 e0       	ldi	r25, 0x03	; 3
   f0:	df df       	rcall	.-66     	; 0xb0 <wait>
+	PORTC = 0b00000000;
   f2:	15 ba       	out	0x15, r1	; 21
   f4:	08 95       	ret
 
-000000f6 <s2>:
-  f6:	95 b3       	in	r25, 0x15	; 21
-  f8:	88 e0       	ldi	r24, 0x08	; 8
-  fa:	89 27       	eor	r24, r25
-  fc:	85 bb       	out	0x15, r24	; 21
-  fe:	88 ee       	ldi	r24, 0xE8	; 232
- 100:	93 e0       	ldi	r25, 0x03	; 3
- 102:	d6 df       	rcall	.-84     	; 0xb0 <wait>
- 104:	15 ba       	out	0x15, r1	; 21
- 106:	08 95       	ret
-
-00000108 <end>:
-}
-
-void end(int* state){
-	state = endState;
-	PORTC ^= BIT(5);
- 108:	95 b3       	in	r25, 0x15	; 21
- 10a:	80 e2       	ldi	r24, 0x20	; 32
- 10c:	89 27       	eor	r24, r25
- 10e:	85 bb       	out	0x15, r24	; 21
-	wait(1000);
- 110:	88 ee       	ldi	r24, 0xE8	; 232
- 112:	93 e0       	ldi	r25, 0x03	; 3
- 114:	cd df       	rcall	.-102    	; 0xb0 <wait>
-	PORTC = 0b00000000;
- 116:	15 ba       	out	0x15, r1	; 21
- 118:	08 95       	ret
-
-0000011a <main>:
-void end(int* state);
-
+000000f6 <main>:
 void wait(int milliseconds);
 
 int main (void)
 {
- 11a:	cf 93       	push	r28
- 11c:	df 93       	push	r29
- 11e:	00 d0       	rcall	.+0      	; 0x120 <main+0x6>
- 120:	cd b7       	in	r28, 0x3d	; 61
- 122:	de b7       	in	r29, 0x3e	; 62
 	int state;
 	DDRD = 0b0000000; //Port D is input
- 124:	11 ba       	out	0x11, r1	; 17
+  f6:	11 ba       	out	0x11, r1	; 17
 	DDRC = 0b11111111; //Port C is output
- 126:	8f ef       	ldi	r24, 0xFF	; 255
- 128:	84 bb       	out	0x14, r24	; 20
+  f8:	8f ef       	ldi	r24, 0xFF	; 255
+  fa:	84 bb       	out	0x14, r24	; 20
 
 	board_init();
- 12a:	c1 df       	rcall	.-126    	; 0xae <board_init>
-
+  fc:	d8 df       	rcall	.-80     	; 0xae <board_init>
 	state = startState;
- 12c:	1a 82       	std	Y+2, r1	; 0x02
- 12e:	19 82       	std	Y+1, r1	; 0x01
-	if(PIND5 && (state == startState || state == s1State))
+	while (1)
 	{
-		s2(&state);
- 130:	ce 01       	movw	r24, r28
- 132:	01 96       	adiw	r24, 0x01	; 1
- 134:	e0 df       	rcall	.-64     	; 0xf6 <s2>
-	}
-	else if(PIND5 && state == s3State)
-	{
-		end(&state);
-	}
-	if(PIND6 && (state == s2State || state == startState))
- 136:	89 81       	ldd	r24, Y+1	; 0x01
- 138:	9a 81       	ldd	r25, Y+2	; 0x02
- 13a:	9c 01       	movw	r18, r24
- 13c:	2d 7f       	andi	r18, 0xFD	; 253
- 13e:	23 2b       	or	r18, r19
- 140:	21 f4       	brne	.+8      	; 0x14a <main+0x30>
-	{
-		s1(&state);
- 142:	ce 01       	movw	r24, r28
- 144:	01 96       	adiw	r24, 0x01	; 1
- 146:	ce df       	rcall	.-100    	; 0xe4 <s1>
- 148:	05 c0       	rjmp	.+10     	; 0x154 <main+0x3a>
-	}
-	else if(PIND6 && state == s3State)
- 14a:	03 97       	sbiw	r24, 0x03	; 3
- 14c:	39 f4       	brne	.+14     	; 0x15c <main+0x42>
-	{
-		end(&state);
- 14e:	ce 01       	movw	r24, r28
- 150:	01 96       	adiw	r24, 0x01	; 1
- 152:	da df       	rcall	.-76     	; 0x108 <end>
-	}
-	if(PIND7 && !state == startState)
- 154:	89 81       	ldd	r24, Y+1	; 0x01
- 156:	9a 81       	ldd	r25, Y+2	; 0x02
- 158:	89 2b       	or	r24, r25
- 15a:	19 f0       	breq	.+6      	; 0x162 <main+0x48>
-	{
-		start(&state);
- 15c:	ce 01       	movw	r24, r28
- 15e:	01 96       	adiw	r24, 0x01	; 1
- 160:	b8 df       	rcall	.-144    	; 0xd2 <start>
-	}
+		if(PIND5 && (state == startState || state == s1State))
+		{
+			s2(state);
+  fe:	80 e0       	ldi	r24, 0x00	; 0
+ 100:	90 e0       	ldi	r25, 0x00	; 0
+ 102:	f0 df       	rcall	.-32     	; 0xe4 <s2>
+		{
+			end(state);
+		}
+		if(PIND6 && (state == s2State || state == startState))
+		{
+			s1(state);
+ 104:	80 e0       	ldi	r24, 0x00	; 0
+ 106:	90 e0       	ldi	r25, 0x00	; 0
+ 108:	e4 df       	rcall	.-56     	; 0xd2 <s1>
+ 10a:	f9 cf       	rjmp	.-14     	; 0xfe <main+0x8>
 
-}
- 162:	80 e0       	ldi	r24, 0x00	; 0
- 164:	90 e0       	ldi	r25, 0x00	; 0
- 166:	0f 90       	pop	r0
- 168:	0f 90       	pop	r0
- 16a:	df 91       	pop	r29
- 16c:	cf 91       	pop	r28
- 16e:	08 95       	ret
+0000010c <_exit>:
+ 10c:	f8 94       	cli
 
-00000170 <_exit>:
- 170:	f8 94       	cli
-
-00000172 <__stop_program>:
- 172:	ff cf       	rjmp	.-2      	; 0x172 <__stop_program>
+0000010e <__stop_program>:
+ 10e:	ff cf       	rjmp	.-2      	; 0x10e <__stop_program>

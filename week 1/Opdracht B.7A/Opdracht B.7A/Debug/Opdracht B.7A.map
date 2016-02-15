@@ -72,7 +72,9 @@ Discarded input sections
  .text          0x00000000        0x0 src/main.o
  .data          0x00000000        0x0 src/main.o
  .bss           0x00000000        0x0 src/main.o
+ .text.start    0x00000000       0x14 src/main.o
  .text.s3       0x00000000       0x14 src/main.o
+ .text.end      0x00000000       0x14 src/main.o
  .debug_macro   0x00000000      0xa66 src/main.o
  .debug_macro   0x00000000       0x10 src/main.o
  .debug_macro   0x00000000      0x1ad src/main.o
@@ -250,7 +252,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x174
+.text           0x00000000      0x110
  *(.vectors)
  .vectors       0x00000000       0x8c C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.90/gcc/dev/atmega128/avr51/crtatmega128.o
                 0x00000000                __vector_default
@@ -347,21 +349,17 @@ END GROUP
                 0x000000ae                board_init
  .text.wait     0x000000b0       0x22 src/main.o
                 0x000000b0                wait
- .text.start    0x000000d2       0x12 src/main.o
-                0x000000d2                start
- .text.s1       0x000000e4       0x12 src/main.o
-                0x000000e4                s1
- .text.s2       0x000000f6       0x12 src/main.o
-                0x000000f6                s2
- .text.end      0x00000108       0x12 src/main.o
-                0x00000108                end
- .text.main     0x0000011a       0x56 src/main.o
-                0x0000011a                main
-                0x00000170                . = ALIGN (0x2)
+ .text.s1       0x000000d2       0x12 src/main.o
+                0x000000d2                s1
+ .text.s2       0x000000e4       0x12 src/main.o
+                0x000000e4                s2
+ .text.main     0x000000f6       0x16 src/main.o
+                0x000000f6                main
+                0x0000010c                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000170        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr51\libgcc.a(_exit.o)
-                0x00000170                _exit
-                0x00000170                exit
+ .fini9         0x0000010c        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr51\libgcc.a(_exit.o)
+                0x0000010c                _exit
+                0x0000010c                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -380,11 +378,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000170        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr51\libgcc.a(_exit.o)
+ .fini0         0x0000010c        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr51\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000174                _etext = .
+                0x00000110                _etext = .
 
-.data           0x00800100        0x0 load address 0x00000174
+.data           0x00800100        0x0 load address 0x00000110
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -401,8 +399,8 @@ END GROUP
  *(.bss*)
  *(COMMON)
                 0x00800100                PROVIDE (__bss_end, .)
-                0x00000174                __data_load_start = LOADADDR (.data)
-                0x00000174                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00000110                __data_load_start = LOADADDR (.data)
+                0x00000110                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800100        0x0
                 0x00800100                PROVIDE (__noinit_start, .)
@@ -484,36 +482,36 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0x3ce
+.debug_info     0x00000000      0x392
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000       0x7c src/ASF/mega/boards/stk600/rcx_x/init.o
- .debug_info    0x0000007c      0x352 src/main.o
+ .debug_info    0x0000007c      0x316 src/main.o
 
-.debug_abbrev   0x00000000      0x1e5
+.debug_abbrev   0x00000000      0x1dc
  *(.debug_abbrev)
  .debug_abbrev  0x00000000       0x47 src/ASF/mega/boards/stk600/rcx_x/init.o
- .debug_abbrev  0x00000047      0x19e src/main.o
+ .debug_abbrev  0x00000047      0x195 src/main.o
 
-.debug_line     0x00000000      0x83b
+.debug_line     0x00000000      0x811
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x35e src/ASF/mega/boards/stk600/rcx_x/init.o
- .debug_line    0x0000035e      0x4dd src/main.o
+ .debug_line    0x0000035e      0x4b3 src/main.o
 
-.debug_frame    0x00000000       0xb8
+.debug_frame    0x00000000       0xa8
  *(.debug_frame)
  .debug_frame   0x00000000       0x24 src/ASF/mega/boards/stk600/rcx_x/init.o
- .debug_frame   0x00000024       0x94 src/main.o
+ .debug_frame   0x00000024       0x84 src/main.o
 
-.debug_str      0x00000000    0x11236
+.debug_str      0x00000000    0x11296
  *(.debug_str)
  .debug_str     0x00000000    0x10d88 src/ASF/mega/boards/stk600/rcx_x/init.o
                               0x10f30 (size before relaxing)
- .debug_str     0x00010d88      0x4ae src/main.o
-                              0x113a5 (size before relaxing)
+ .debug_str     0x00010d88      0x50e src/main.o
+                              0x113a9 (size before relaxing)
 
-.debug_loc      0x00000000      0x166
+.debug_loc      0x00000000      0x11e
  *(.debug_loc)
- .debug_loc     0x00000000      0x166 src/main.o
+ .debug_loc     0x00000000      0x11e src/main.o
 
 .debug_macinfo
  *(.debug_macinfo)
