@@ -8,6 +8,7 @@
  #pragma once
 
  void wait(int milliseconds);
+ void loopLight();
  ISR( INT1_vect );
  ISR ( INT2_vect);
 
