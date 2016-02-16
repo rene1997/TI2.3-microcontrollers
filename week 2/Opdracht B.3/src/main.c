@@ -30,11 +30,20 @@
  */
 #include <asf.h>
 
+unsigned char segments[] = {{0x3f}, {0x06}}; 
+//segment info: 
+/*
+https://en.wikipedia.org/wiki/Seven-segment_display
+0 = 0x3f
+1 = 0x06
+2 = 0x5b
+3 = 
+
+*/
+
 int main (void)
 {
-	/* Insert system clock initialization code here (sysclk_init()). */
-
 	board_init();
+	
 
-	/* Insert application code here, after the board has been initialized. */
 }
