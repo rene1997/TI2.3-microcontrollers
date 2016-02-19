@@ -41,9 +41,22 @@ https://en.wikipedia.org/wiki/Seven-segment_display
 
 */
 
+wait(int milliseconds){
+	for (int i = 0; i <milliseconds i++)
+	{
+		_delay_ms(1);
+	}
+	
+}
+
 int main (void)
 {
-	board_init();
+	DDRD = 0b11111111;					// PORTD all output 
 	
+	board_init();
+	for(int i = 0; i < 10; i++){
+		
+		PORTD = segments[i];
 
+	}
 }
