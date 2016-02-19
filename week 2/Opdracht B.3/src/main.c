@@ -29,8 +29,10 @@
  * Support and FAQ: visit <a href="http://www.atmel.com/design-support/">Atmel Support</a>
  */
 #include <asf.h>
+#include <util/delay.h>
 
-unsigned char segments[] = {{0x3f}, {0x06}}; 
+unsigned char segments[] = {
+0x3f, 0x06, 0x5B,0x4F,0x66,0x6d,0x7d,0x07,0x7f,0x6f,0x77,0x7c,0x39,0x5e,0x79,0x71 }; 
 //segment info: 
 /*
 https://en.wikipedia.org/wiki/Seven-segment_display
@@ -41,22 +43,63 @@ https://en.wikipedia.org/wiki/Seven-segment_display
 
 */
 
-wait(int milliseconds){
-	for (int i = 0; i <milliseconds i++)
-	{
+int INDEX;
+
+void wait(int milliseconds){
+	for(int i = 0; i < milliseconds; i++){
 		_delay_ms(1);
 	}
-	
+}
+
+valueUP(){
+	if(INDEX <15)
+		INDEX ++;
+	PORTC = segments[INDEX];
+	wait(250);
+}
+
+valueDown(){
+	if(INDEX > 0)
+	INDEX --;
+	PORTC = segments[INDEX];
+	wait(250);
+}
+
+ISR(INT2_vect){
+	valueDown();
+	if(PIND1 == 1 && PIND2 == 1){
+		INDEX = 0;
+		PORTC = segments[INDEX];
+		wait(500);
+	}
+}
+
+ISR(INT1_vect){
+	valueUP();
+	if(PIND1 == 1 && PIND2 ==1){
+		INDEX = 0;
+		PORTC = segments[INDEX];
+		wait(500);
+	}
 }
 
 int main (void)
 {
-	DDRD = 0b11111111;					// PORTD all output 
-	
+	DDRD = 0b11110000;			//set pin 0 - 4 input
+								//set pin 4 - 7 output
+	DDRC = 0b11111111;			// PORTC all output 
+
+	//Init Interrupt hardware
+	EICRA |= 0b00111100;		//int 1 rising edge, int 2 rising edge
+	EIMSK |= 0b00000110;		//enable INT 1 & INT 2
+	sei();
 	board_init();
-	for(int i = 0; i < 10; i++){
-		
-		PORTD = segments[i];
+	INDEX = 0;
+	PORTC = segments[INDEX];
+	while(1){
 
 	}
+	
 }
+
+
