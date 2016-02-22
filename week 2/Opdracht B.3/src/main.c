@@ -31,8 +31,11 @@
 #include <asf.h>
 #include <util/delay.h>
 
+//array with values to view numbers on 7 segements display
 unsigned char segments[] = {
 0x3f, 0x06, 0x5B,0x4F,0x66,0x6d,0x7d,0x07,0x7f,0x6f,0x77,0x7c,0x39,0x5e,0x79,0x71 }; 
+
+
 //segment info: 
 /*
 https://en.wikipedia.org/wiki/Seven-segment_display
@@ -65,22 +68,15 @@ valueDown(){
 	wait(250);
 }
 
+//when pin d2 is pressed
 ISR(INT2_vect){
 	valueDown();
-	if(PIND1 == 1 && PIND2 == 1){
-		INDEX = 0;
-		PORTC = segments[INDEX];
-		wait(500);
-	}
 }
 
+//when pin d1 is pressed
 ISR(INT1_vect){
 	valueUP();
-	if(PIND1 == 1 && PIND2 ==1){
-		INDEX = 0;
-		PORTC = segments[INDEX];
-		wait(500);
-	}
+	
 }
 
 int main (void)
@@ -97,7 +93,11 @@ int main (void)
 	INDEX = 0;
 	PORTC = segments[INDEX];
 	while(1){
-
+		if(PIND == 0b00000110){  //check if pin d1 and d2 are pressed
+			INDEX = 0;
+			PORTC = segments[INDEX];
+			wait(500);			
+		}
 	}
 	
 }
