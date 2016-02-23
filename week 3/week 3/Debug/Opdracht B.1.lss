@@ -3,31 +3,31 @@ Opdracht B.1.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800100  00800100  00000188  2**0
+  0 .data         00000000  00800100  00800100  00000198  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00000134  00000000  00000000  00000054  2**1
+  1 .text         00000144  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  00000188  2**0
+  2 .comment      00000030  00000000  00000000  00000198  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000001b8  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000001c8  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000058  00000000  00000000  000001f4  2**0
+  4 .debug_aranges 00000058  00000000  00000000  00000204  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000318  00000000  00000000  0000024c  2**0
+  5 .debug_info   00000379  00000000  00000000  0000025c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 000001a0  00000000  00000000  00000564  2**0
+  6 .debug_abbrev 000001a0  00000000  00000000  000005d5  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   00000801  00000000  00000000  00000704  2**0
+  7 .debug_line   0000081c  00000000  00000000  00000775  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000078  00000000  00000000  00000f08  2**2
+  8 .debug_frame  00000078  00000000  00000000  00000f94  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    000111ea  00000000  00000000  00000f80  2**0
+  9 .debug_str    000111ea  00000000  00000000  0000100c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000042  00000000  00000000  0001216a  2**0
+ 10 .debug_loc    00000042  00000000  00000000  000121f6  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000038  00000000  00000000  000121ac  2**0
+ 11 .debug_ranges 00000038  00000000  00000000  00012238  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_macro  00003a48  00000000  00000000  000121e4  2**0
+ 12 .debug_macro  00003a48  00000000  00000000  00012270  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -111,8 +111,8 @@ Disassembly of section .text:
   92:	d0 e1       	ldi	r29, 0x10	; 16
   94:	de bf       	out	0x3e, r29	; 62
   96:	cd bf       	out	0x3d, r28	; 61
-  98:	44 d0       	rcall	.+136    	; 0x122 <main>
-  9a:	4a c0       	rjmp	.+148    	; 0x130 <_exit>
+  98:	4e d0       	rcall	.+156    	; 0x136 <main>
+  9a:	52 c0       	rjmp	.+164    	; 0x140 <_exit>
 
 0000009c <__bad_interrupt>:
   9c:	b1 cf       	rjmp	.-158    	; 0x0 <__vectors>
@@ -127,8 +127,8 @@ void board_init(void)
   9e:	08 95       	ret
 
 000000a0 <lcd_command>:
-	//Ram adress: 0, first position, line 1
 	lcd_command(0x80);
+	*/
 }
 
 void lcd_command(unsigned char dat){
@@ -176,110 +176,126 @@ void lcd_command(unsigned char dat){
   d2:	08 95       	ret
 
 000000d4 <init_lcd>:
-	/* Insert application code here, after the board has been initialized. */
 }
 
 void init_lcd(){
-	//return home8
-	lcd_command(0x02);
-  d4:	82 e0       	ldi	r24, 0x02	; 2
+
+	//clear display
+	lcd_command(0x00);
+  d4:	80 e0       	ldi	r24, 0x00	; 0
   d6:	e4 df       	rcall	.-56     	; 0xa0 <lcd_command>
 
-	//mode: 4 bits interface data, 2 lines, 5x data
-	lcd_command(0x28);
-  d8:	88 e2       	ldi	r24, 0x28	; 40
+	//return home
+	lcd_command(0x02);
+  d8:	82 e0       	ldi	r24, 0x02	; 2
   da:	e2 df       	rcall	.-60     	; 0xa0 <lcd_command>
 
-	//entry mode: cursor to right no shift
-	lcd_command(0x06);
-  dc:	86 e0       	ldi	r24, 0x06	; 6
+	//set 4 bit 
+	lcd_command(0x28);
+  dc:	88 e2       	ldi	r24, 0x28	; 40
   de:	e0 df       	rcall	.-64     	; 0xa0 <lcd_command>
+	lcd_command(0x28);
+  e0:	88 e2       	ldi	r24, 0x28	; 40
+  e2:	de df       	rcall	.-68     	; 0xa0 <lcd_command>
+	lcd_command(0x28);
+  e4:	88 e2       	ldi	r24, 0x28	; 40
+  e6:	dc df       	rcall	.-72     	; 0xa0 <lcd_command>
+
+	//clear screen
+	lcd_command(0x01);
+  e8:	81 e0       	ldi	r24, 0x01	; 1
+  ea:	da df       	rcall	.-76     	; 0xa0 <lcd_command>
+
+	//blinking cursor
+	lcd_command(0x06);
+  ec:	86 e0       	ldi	r24, 0x06	; 6
+  ee:	d8 df       	rcall	.-80     	; 0xa0 <lcd_command>
+
+	lcd_command(0x0F);
+  f0:	8f e0       	ldi	r24, 0x0F	; 15
+  f2:	d6 df       	rcall	.-84     	; 0xa0 <lcd_command>
 
 	//Ram adress: 0, first position, line 1
 	lcd_command(0x80);
-  e0:	80 e8       	ldi	r24, 0x80	; 128
-  e2:	de cf       	rjmp	.-68     	; 0xa0 <lcd_command>
-  e4:	08 95       	ret
+  f4:	80 e8       	ldi	r24, 0x80	; 128
+  f6:	d4 cf       	rjmp	.-88     	; 0xa0 <lcd_command>
+  f8:	08 95       	ret
 
-000000e6 <lcd_writeChar>:
+000000fa <lcd_writeChar>:
 	PORTC =  0x00;
 }
 
 void lcd_writeChar( unsigned char dat)
 {
 	PORTC = dat & 0xF0;
-  e6:	98 2f       	mov	r25, r24
-  e8:	90 7f       	andi	r25, 0xF0	; 240
-  ea:	95 bb       	out	0x15, r25	; 21
+  fa:	98 2f       	mov	r25, r24
+  fc:	90 7f       	andi	r25, 0xF0	; 240
+  fe:	95 bb       	out	0x15, r25	; 21
 	//hogenibble
 	PORTC = PORTC | 0x0C;
-  ec:	95 b3       	in	r25, 0x15	; 21
-  ee:	9c 60       	ori	r25, 0x0C	; 12
-  f0:	95 bb       	out	0x15, r25	; 21
-  f2:	e9 ef       	ldi	r30, 0xF9	; 249
-  f4:	f0 e0       	ldi	r31, 0x00	; 0
-  f6:	31 97       	sbiw	r30, 0x01	; 1
-  f8:	f1 f7       	brne	.-4      	; 0xf6 <lcd_writeChar+0x10>
-  fa:	00 c0       	rjmp	.+0      	; 0xfc <lcd_writeChar+0x16>
-  fc:	00 00       	nop
+ 100:	95 b3       	in	r25, 0x15	; 21
+ 102:	9c 60       	ori	r25, 0x0C	; 12
+ 104:	95 bb       	out	0x15, r25	; 21
+ 106:	e9 ef       	ldi	r30, 0xF9	; 249
+ 108:	f0 e0       	ldi	r31, 0x00	; 0
+ 10a:	31 97       	sbiw	r30, 0x01	; 1
+ 10c:	f1 f7       	brne	.-4      	; 0x10a <lcd_writeChar+0x10>
+ 10e:	00 c0       	rjmp	.+0      	; 0x110 <lcd_writeChar+0x16>
+ 110:	00 00       	nop
 	// data (RS=1),
 	// start (EN=1)
 	_delay_ms(1);
 	// wait 1 ms
 	PORTC = 0x04;
-  fe:	94 e0       	ldi	r25, 0x04	; 4
- 100:	95 bb       	out	0x15, r25	; 21
+ 112:	94 e0       	ldi	r25, 0x04	; 4
+ 114:	95 bb       	out	0x15, r25	; 21
 	// stop (EN = 0)
 	PORTC = (dat& 0x0F) << 4;
- 102:	f0 e1       	ldi	r31, 0x10	; 16
- 104:	8f 9f       	mul	r24, r31
- 106:	c0 01       	movw	r24, r0
- 108:	11 24       	eor	r1, r1
- 10a:	85 bb       	out	0x15, r24	; 21
+ 116:	f0 e1       	ldi	r31, 0x10	; 16
+ 118:	8f 9f       	mul	r24, r31
+ 11a:	c0 01       	movw	r24, r0
+ 11c:	11 24       	eor	r1, r1
+ 11e:	85 bb       	out	0x15, r24	; 21
 	//lagenibble
 	PORTC = PORTC | 0x0C;
- 10c:	85 b3       	in	r24, 0x15	; 21
- 10e:	8c 60       	ori	r24, 0x0C	; 12
- 110:	85 bb       	out	0x15, r24	; 21
- 112:	89 ef       	ldi	r24, 0xF9	; 249
- 114:	90 e0       	ldi	r25, 0x00	; 0
- 116:	01 97       	sbiw	r24, 0x01	; 1
- 118:	f1 f7       	brne	.-4      	; 0x116 <lcd_writeChar+0x30>
- 11a:	00 c0       	rjmp	.+0      	; 0x11c <lcd_writeChar+0x36>
- 11c:	00 00       	nop
+ 120:	85 b3       	in	r24, 0x15	; 21
+ 122:	8c 60       	ori	r24, 0x0C	; 12
+ 124:	85 bb       	out	0x15, r24	; 21
+ 126:	89 ef       	ldi	r24, 0xF9	; 249
+ 128:	90 e0       	ldi	r25, 0x00	; 0
+ 12a:	01 97       	sbiw	r24, 0x01	; 1
+ 12c:	f1 f7       	brne	.-4      	; 0x12a <lcd_writeChar+0x30>
+ 12e:	00 c0       	rjmp	.+0      	; 0x130 <lcd_writeChar+0x36>
+ 130:	00 00       	nop
 	// data (RS=1),
 	// start (EN=1)
 	_delay_ms(1);
 	// wait 1 ms
 	PORTC = 0x00;
- 11e:	15 ba       	out	0x15, r1	; 21
- 120:	08 95       	ret
+ 132:	15 ba       	out	0x15, r1	; 21
+ 134:	08 95       	ret
 
-00000122 <main>:
+00000136 <main>:
 
 int main (void)
 {
 	/* Insert system clock initialization code here (sysclk_init()). */
 
 	board_init();
- 122:	bd df       	rcall	.-134    	; 0x9e <board_init>
+ 136:	b3 df       	rcall	.-154    	; 0x9e <board_init>
 	init_lcd();
- 124:	d7 df       	rcall	.-82     	; 0xd4 <init_lcd>
+ 138:	cd df       	rcall	.-102    	; 0xd4 <init_lcd>
 
-	lcd_writeChar('A');
- 126:	81 e4       	ldi	r24, 0x41	; 65
- 128:	de df       	rcall	.-68     	; 0xe6 <lcd_writeChar>
+	lcd_writeChar(0x64);
+ 13a:	84 e6       	ldi	r24, 0x64	; 100
+ 13c:	de df       	rcall	.-68     	; 0xfa <lcd_writeChar>
+	while(1){
 
+	}
+ 13e:	ff cf       	rjmp	.-2      	; 0x13e <main+0x8>
 
+00000140 <_exit>:
+ 140:	f8 94       	cli
 
-	/* Insert application code here, after the board has been initialized. */
-}
- 12a:	80 e0       	ldi	r24, 0x00	; 0
- 12c:	90 e0       	ldi	r25, 0x00	; 0
- 12e:	08 95       	ret
-
-00000130 <_exit>:
- 130:	f8 94       	cli
-
-00000132 <__stop_program>:
- 132:	ff cf       	rjmp	.-2      	; 0x132 <__stop_program>
+00000142 <__stop_program>:
+ 142:	ff cf       	rjmp	.-2      	; 0x142 <__stop_program>
