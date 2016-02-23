@@ -12,6 +12,7 @@
 void init_lcd();
 void lcd_command(unsigned char);
 void lcd_writeChar( unsigned char);
+void lcd_writeLine1 ( char text1[] );
 
 
 
