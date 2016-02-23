@@ -37,22 +37,21 @@
 int main (void)
 {
 	/* Insert system clock initialization code here (sysclk_init()). */
-	char c[] = "Test 1234567 TEST";
+	char c[] = "RENÉ";
 	init_lcd();
 	//board_init();
 	
-
+	//lcd_command(0x81);
+	_delay_ms(25);
 	while(1)
 	{
+		lcd_command(0x01);
 		//lcd_writeChar('A');
 		lcd_writeLine1(c);
 		_delay_ms(5000);
+		lcd_writeLine2(c);
+		_delay_ms(5000);
 	}
-	
-
-
-
-	/* Insert application code here, after the board has been initialized. */
 }
 
 void init_lcd(){
@@ -72,6 +71,9 @@ void init_lcd(){
 	_delay_ms(25);
 	//Ram adress: 0, first position, line 1
 	lcd_command(0x80);
+	_delay_ms(25);
+	lcd_command(0x01);
+	_delay_ms(25);
 }
 
 void lcd_command(unsigned char dat){
@@ -111,3 +113,13 @@ void lcd_writeLine1 ( char text1[] )
 		lcd_writeChar( text1[i] );
 	}
 }
+
+void lcd_writeLine2 ( char text2[] )
+{
+	// dan de eerste 8 karakters = regel 2
+	// eerste pos regel 2
+	lcd_command(0xC0);
+	for (int i=0; i<16; i++) {
+		lcd_writeChar( text2[i] );
+	}
+}
