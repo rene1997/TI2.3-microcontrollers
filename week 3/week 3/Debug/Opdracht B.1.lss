@@ -313,7 +313,7 @@ Disassembly of section .text:
 0000019a <lcd_setCursorPosition>:
  }
 
- void lcd_setCursorPosition(char position, int line)
+ void lcd_setCursorPosition(unsigned char position, int line)
  {
 	if(line == 2)
  19a:	62 30       	cpi	r22, 0x02	; 2
