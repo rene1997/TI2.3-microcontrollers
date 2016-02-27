@@ -12,7 +12,7 @@
 void init_lcd();
 void lcd_command(unsigned char);
 void lcd_writeChar( unsigned char);
-void lcd_writeLine1 ( char text1[], int length );
-void lcd_writeLine2 ( char text2[], int length );
+void lcd_setCursorPosition(char position, int line);
+void lcd_writeLine ( char text1[], int length, int line);
 
 #endif /* LCD_H_ */

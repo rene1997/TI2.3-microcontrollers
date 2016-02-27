@@ -38,19 +38,18 @@
 int main (void)
 {
 	/* Insert system clock initialization code here (sysclk_init()). */
-	char c[] = "RENE";
+	char c[] = "Test";
 	init_lcd();
-	//board_init();
-	
-	//lcd_command(0x81);
 	_delay_ms(25);
 	while(1)
 	{
 		lcd_command(0x01);
-		//lcd_writeChar('A');
-		lcd_writeLine1(c, sizeof(c));
-		_delay_ms(5000);
-		lcd_writeLine2(c, sizeof(c));
+		lcd_writeLine(c, sizeof(c), 1);
+		//_delay_ms(5000);
+		//lcd_writeLine2(c, sizeof(c));
+		//_delay_ms(5000);
+		lcd_setCursorPosition(0x0a, 2);
+		lcd_writeChar('A');
 		_delay_ms(5000);
 	}
 }

@@ -6,6 +6,7 @@
  */ 
  #include <asf.h>
  #include <util/delay.h>
+ #include <stdlib.h>
  #include "LCD.h"
 
  void init_lcd()
@@ -60,22 +61,38 @@
 	 PORTC = 0x00;
  }
 
- void lcd_writeLine1 ( char text1[], int length)
+ void lcd_setCursorPosition(char position, int line)
+ {
+	if(line == 2)
+	{
+		char value;
+		value = 0xc0 + position;
+		lcd_command(value);
+	}
+	else
+	{
+		char value;
+		value = 0x80 + position;
+		lcd_command(value);
+	}
+ }
+
+ void lcd_writeLine( char text[], int length, int line)
  {
 	 // eerst de eerste 8 karakters = regel 1
 	 // eerste pos regel 1
-	 lcd_command(0x80);
-	 for (int i=0; i<length - 1; i++) {
-		 lcd_writeChar( text1[i] );
+	 if(line == 2)
+	 {
+		 lcd_command(0xC0);
+			for (int i=0; i<length - 1; i++) {
+			 lcd_writeChar( text[i] );
+			}
 	 }
- }
-
- void lcd_writeLine2 ( char text2[], int length )
- {
-	 // dan de eerste 8 karakters = regel 2
-	 // eerste pos regel 2
-	 lcd_command(0xC0);
-	 for (int i=0; i<length - 1; i++) {
-		 lcd_writeChar( text2[i] );
+	 else
+	 {
+	 	 lcd_command(0x80);
+	 	 for (int i=0; i<length - 1; i++) {
+		 	 lcd_writeChar( text[i] );
+	 	 }
 	 }
  }
