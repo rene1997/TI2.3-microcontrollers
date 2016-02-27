@@ -9,6 +9,36 @@ Discarded input sections
 
  .data          0x00000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.90/gcc/dev/atmega128/avr51/crtatmega128.o
  .bss           0x00000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.90/gcc/dev/atmega128/avr51/crtatmega128.o
+ .group         0x00000000        0x8 src/LCD.o
+ .group         0x00000000        0x8 src/LCD.o
+ .group         0x00000000        0x8 src/LCD.o
+ .group         0x00000000        0x8 src/LCD.o
+ .group         0x00000000        0x8 src/LCD.o
+ .group         0x00000000        0x8 src/LCD.o
+ .group         0x00000000        0x8 src/LCD.o
+ .group         0x00000000        0x8 src/LCD.o
+ .group         0x00000000        0x8 src/LCD.o
+ .group         0x00000000        0x8 src/LCD.o
+ .group         0x00000000        0x8 src/LCD.o
+ .group         0x00000000        0x8 src/LCD.o
+ .group         0x00000000        0x8 src/LCD.o
+ .group         0x00000000        0x8 src/LCD.o
+ .group         0x00000000        0x8 src/LCD.o
+ .group         0x00000000        0x8 src/LCD.o
+ .group         0x00000000        0x8 src/LCD.o
+ .group         0x00000000        0x8 src/LCD.o
+ .group         0x00000000        0x8 src/LCD.o
+ .group         0x00000000        0x8 src/LCD.o
+ .group         0x00000000        0x8 src/LCD.o
+ .group         0x00000000        0x8 src/LCD.o
+ .group         0x00000000        0x8 src/LCD.o
+ .group         0x00000000        0x8 src/LCD.o
+ .group         0x00000000        0x8 src/LCD.o
+ .group         0x00000000        0x8 src/LCD.o
+ .group         0x00000000        0x8 src/LCD.o
+ .text          0x00000000        0x0 src/LCD.o
+ .data          0x00000000        0x0 src/LCD.o
+ .bss           0x00000000        0x0 src/LCD.o
  .group         0x00000000        0x8 src/ASF/mega/boards/stk600/rcx_x/init.o
  .group         0x00000000        0x8 src/ASF/mega/boards/stk600/rcx_x/init.o
  .group         0x00000000        0x8 src/ASF/mega/boards/stk600/rcx_x/init.o
@@ -129,6 +159,8 @@ Discarded input sections
  .debug_macro   0x00000000       0x40 src/main.o
  .debug_macro   0x00000000      0x100 src/main.o
  .debug_macro   0x00000000      0x288 src/main.o
+ .debug_macro   0x00000000       0x10 src/main.o
+ .debug_macro   0x00000000      0x160 src/main.o
  .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr51\libgcc.a(_exit.o)
  .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr51\libgcc.a(_exit.o)
  .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr51\libgcc.a(_exit.o)
@@ -178,6 +210,7 @@ Linker script and memory map
 
 Address of section .data set to 0x800100
 LOAD C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.90/gcc/dev/atmega128/avr51/crtatmega128.o
+LOAD src/LCD.o
 LOAD src/ASF/mega/boards/stk600/rcx_x/init.o
 LOAD src/main.o
 START GROUP
@@ -373,19 +406,19 @@ END GROUP
                 0x000000b8                . = ALIGN (0x2)
  *(.text.*)
  .text.lcd_command
-                0x000000b8       0x34 src/main.o
+                0x000000b8       0x34 src/LCD.o
                 0x000000b8                lcd_command
  .text.init_lcd
-                0x000000ec       0x72 src/main.o
+                0x000000ec       0x72 src/LCD.o
                 0x000000ec                init_lcd
  .text.lcd_writeChar
-                0x0000015e       0x3c src/main.o
+                0x0000015e       0x3c src/LCD.o
                 0x0000015e                lcd_writeChar
  .text.lcd_writeLine1
-                0x0000019a       0x3c src/main.o
+                0x0000019a       0x3c src/LCD.o
                 0x0000019a                lcd_writeLine1
  .text.lcd_writeLine2
-                0x000001d6       0x3c src/main.o
+                0x000001d6       0x3c src/LCD.o
                 0x000001d6                lcd_writeLine2
  .text.main     0x00000212       0x6c src/main.o
                 0x00000212                main
@@ -485,8 +518,9 @@ END GROUP
 
 .comment        0x00000000       0x30
  *(.comment)
- .comment       0x00000000       0x30 src/main.o
+ .comment       0x00000000       0x30 src/LCD.o
                                  0x31 (size before relaxing)
+ .comment       0x00000030       0x31 src/main.o
 
 .note.gnu.avr.deviceinfo
                 0x00000000       0x3c
@@ -508,38 +542,47 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000       0x48
+.debug_aranges  0x00000000       0x60
  *(.debug_aranges)
  .debug_aranges
-                0x00000000       0x48 src/main.o
+                0x00000000       0x40 src/LCD.o
+ .debug_aranges
+                0x00000040       0x20 src/main.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0x63b
+.debug_info     0x00000000      0x746
  *(.debug_info .gnu.linkonce.wi.*)
- .debug_info    0x00000000      0x63b src/main.o
+ .debug_info    0x00000000      0x4e8 src/LCD.o
+ .debug_info    0x000004e8      0x25e src/main.o
 
-.debug_abbrev   0x00000000      0x1be
+.debug_abbrev   0x00000000      0x2fc
  *(.debug_abbrev)
- .debug_abbrev  0x00000000      0x1be src/main.o
+ .debug_abbrev  0x00000000      0x190 src/LCD.o
+ .debug_abbrev  0x00000190      0x16c src/main.o
 
-.debug_line     0x00000000      0x5ad
+.debug_line     0x00000000      0x96c
  *(.debug_line .debug_line.* .debug_line_end)
- .debug_line    0x00000000      0x5ad src/main.o
+ .debug_line    0x00000000      0x547 src/LCD.o
+ .debug_line    0x00000547      0x425 src/main.o
 
-.debug_frame    0x00000000       0xc4
+.debug_frame    0x00000000       0xd8
  *(.debug_frame)
- .debug_frame   0x00000000       0xc4 src/main.o
+ .debug_frame   0x00000000       0xa4 src/LCD.o
+ .debug_frame   0x000000a4       0x34 src/main.o
 
-.debug_str      0x00000000    0x111e0
+.debug_str      0x00000000    0x111f5
  *(.debug_str)
- .debug_str     0x00000000    0x111e0 src/main.o
-                              0x1138d (size before relaxing)
+ .debug_str     0x00000000    0x111d0 src/LCD.o
+                              0x1137d (size before relaxing)
+ .debug_str     0x000111d0       0x25 src/main.o
+                              0x1136c (size before relaxing)
 
 .debug_loc      0x00000000      0x2b8
  *(.debug_loc)
- .debug_loc     0x00000000      0x2b8 src/main.o
+ .debug_loc     0x00000000      0x270 src/LCD.o
+ .debug_loc     0x00000270       0x48 src/main.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -559,14 +602,41 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000       0x38
+.debug_ranges   0x00000000       0x40
  *(.debug_ranges)
- .debug_ranges  0x00000000       0x38 src/main.o
+ .debug_ranges  0x00000000       0x30 src/LCD.o
+ .debug_ranges  0x00000030       0x10 src/main.o
 
-.debug_macro    0x00000000      0x2da
+.debug_macro    0x00000000     0x3a88
  *(.debug_macro)
- .debug_macro   0x00000000      0x16a src/main.o
- .debug_macro   0x0000016a       0x10 src/main.o
- .debug_macro   0x0000017a      0x160 src/main.o
+ .debug_macro   0x00000000      0x16a src/LCD.o
+ .debug_macro   0x0000016a      0xa66 src/LCD.o
+ .debug_macro   0x00000bd0       0x10 src/LCD.o
+ .debug_macro   0x00000be0      0x1ad src/LCD.o
+ .debug_macro   0x00000d8d      0x293 src/LCD.o
+ .debug_macro   0x00001020       0x9e src/LCD.o
+ .debug_macro   0x000010be     0x14c5 src/LCD.o
+ .debug_macro   0x00002583      0x203 src/LCD.o
+ .debug_macro   0x00002786       0xcb src/LCD.o
+ .debug_macro   0x00002851       0x34 src/LCD.o
+ .debug_macro   0x00002885       0x18 src/LCD.o
+ .debug_macro   0x0000289d       0x6c src/LCD.o
+ .debug_macro   0x00002909       0x22 src/LCD.o
+ .debug_macro   0x0000292b      0x166 src/LCD.o
+ .debug_macro   0x00002a91       0x1c src/LCD.o
+ .debug_macro   0x00002aad       0x35 src/LCD.o
+ .debug_macro   0x00002ae2       0x66 src/LCD.o
+ .debug_macro   0x00002b48      0x636 src/LCD.o
+ .debug_macro   0x0000317e       0x44 src/LCD.o
+ .debug_macro   0x000031c2       0x69 src/LCD.o
+ .debug_macro   0x0000322b       0x2c src/LCD.o
+ .debug_macro   0x00003257       0x10 src/LCD.o
+ .debug_macro   0x00003267      0x175 src/LCD.o
+ .debug_macro   0x000033dc       0x40 src/LCD.o
+ .debug_macro   0x0000341c      0x100 src/LCD.o
+ .debug_macro   0x0000351c      0x288 src/LCD.o
+ .debug_macro   0x000037a4       0x10 src/LCD.o
+ .debug_macro   0x000037b4      0x160 src/LCD.o
+ .debug_macro   0x00003914      0x174 src/main.o
 OUTPUT(Opdracht B.1.elf elf32-avr)
 LOAD linker stubs
