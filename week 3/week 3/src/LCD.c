@@ -7,6 +7,7 @@
  #include <asf.h>
  #include <util/delay.h>
  #include <stdlib.h>
+ #include <string.h>
  #include "LCD.h"
 
  void init_lcd()
@@ -77,21 +78,21 @@
 	}
  }
 
- void lcd_writeLine( char text[], int length, int line)
+ void lcd_writeLine( char text[], int line)
  {
 	 // eerst de eerste 8 karakters = regel 1
 	 // eerste pos regel 1
 	 if(line == 2)
 	 {
 		 lcd_command(0xC0);
-			for (int i=0; i<length - 1; i++) {
+			for (int i=0; i < strlen(text); i++) {
 			 lcd_writeChar( text[i] );
 			}
 	 }
 	 else
 	 {
 	 	 lcd_command(0x80);
-	 	 for (int i=0; i<length - 1; i++) {
+	 	 for (int i=0; i < strlen(text); i++) {
 		 	 lcd_writeChar( text[i] );
 	 	 }
 	 }

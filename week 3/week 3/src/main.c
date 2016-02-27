@@ -44,7 +44,7 @@ int main (void)
 	while(1)
 	{
 		lcd_command(0x01);
-		lcd_writeLine(c, sizeof(c), 1);
+		lcd_writeLine(c, 1);
 		//_delay_ms(5000);
 		//lcd_writeLine2(c, sizeof(c));
 		//_delay_ms(5000);
