@@ -3,31 +3,31 @@ Opdracht B.1.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000006  00800100  00000288  000002fc  2**0
+  0 .data         00000006  00800100  00000286  000002fa  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00000288  00000000  00000000  00000074  2**1
+  1 .text         00000286  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  00000302  2**0
+  2 .comment      00000030  00000000  00000000  00000300  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000334  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000330  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000060  00000000  00000000  00000370  2**0
+  4 .debug_aranges 00000060  00000000  00000000  0000036c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000793  00000000  00000000  000003d0  2**0
+  5 .debug_info   0000073d  00000000  00000000  000003cc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 000002f3  00000000  00000000  00000b63  2**0
+  6 .debug_abbrev 000002f3  00000000  00000000  00000b09  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   0000099d  00000000  00000000  00000e56  2**0
+  7 .debug_line   0000099d  00000000  00000000  00000dfc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  000000b8  00000000  00000000  000017f4  2**2
+  8 .debug_frame  000000b8  00000000  00000000  0000179c  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00011379  00000000  00000000  000018ac  2**0
+  9 .debug_str    00011379  00000000  00000000  00001854  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    000002cc  00000000  00000000  00012c25  2**0
+ 10 .debug_loc    0000024b  00000000  00000000  00012bcd  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000040  00000000  00000000  00012ef1  2**0
+ 11 .debug_ranges 00000040  00000000  00000000  00012e18  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_macro  00003ab6  00000000  00000000  00012f31  2**0
+ 12 .debug_macro  00003ab6  00000000  00000000  00012e58  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -116,7 +116,7 @@ Disassembly of section .text:
   98:	11 e0       	ldi	r17, 0x01	; 1
   9a:	a0 e0       	ldi	r26, 0x00	; 0
   9c:	b1 e0       	ldi	r27, 0x01	; 1
-  9e:	e8 e8       	ldi	r30, 0x88	; 136
+  9e:	e6 e8       	ldi	r30, 0x86	; 134
   a0:	f2 e0       	ldi	r31, 0x02	; 2
   a2:	00 e0       	ldi	r16, 0x00	; 0
   a4:	0b bf       	out	0x3b, r16	; 59
@@ -127,7 +127,7 @@ Disassembly of section .text:
   ae:	b1 07       	cpc	r27, r17
   b0:	d9 f7       	brne	.-10     	; 0xa8 <__do_copy_data+0x10>
   b2:	ba d0       	rcall	.+372    	; 0x228 <main>
-  b4:	e7 c0       	rjmp	.+462    	; 0x284 <_exit>
+  b4:	e6 c0       	rjmp	.+460    	; 0x282 <_exit>
 
 000000b6 <__bad_interrupt>:
   b6:	a4 cf       	rjmp	.-184    	; 0x0 <__vectors>
@@ -313,23 +313,23 @@ Disassembly of section .text:
 0000019a <lcd_setCursorPosition>:
  }
 
- void lcd_setCursorPosition(unsigned char position, int line)
+ void lcd_setCursorPosition(int position)
  {
-	if(line == 2)
- 19a:	62 30       	cpi	r22, 0x02	; 2
- 19c:	71 05       	cpc	r23, r1
- 19e:	19 f4       	brne	.+6      	; 0x1a6 <lcd_setCursorPosition+0xc>
+	char value;
+	if(position >= 16)
+ 19a:	80 31       	cpi	r24, 0x10	; 16
+ 19c:	91 05       	cpc	r25, r1
+ 19e:	1c f0       	brlt	.+6      	; 0x1a6 <lcd_setCursorPosition+0xc>
 	{
-		char value;
+		position = position - 16;
 		value = 0xc0 + position;
 		lcd_command(value);
- 1a0:	80 54       	subi	r24, 0x40	; 64
+ 1a0:	80 55       	subi	r24, 0x50	; 80
  1a2:	8a cf       	rjmp	.-236    	; 0xb8 <lcd_command>
  1a4:	08 95       	ret
 	}
 	else
 	{
-		char value;
 		value = 0x80 + position;
 		lcd_command(value);
  1a6:	80 58       	subi	r24, 0x80	; 128
@@ -484,27 +484,26 @@ int main (void)
 		//_delay_ms(5000);
 		//lcd_writeLine2(c, sizeof(c));
 		//_delay_ms(5000);
-		lcd_setCursorPosition(11, 2);
- 264:	62 e0       	ldi	r22, 0x02	; 2
- 266:	70 e0       	ldi	r23, 0x00	; 0
- 268:	8b e0       	ldi	r24, 0x0B	; 11
- 26a:	97 df       	rcall	.-210    	; 0x19a <lcd_setCursorPosition>
+		lcd_setCursorPosition(26);
+ 264:	8a e1       	ldi	r24, 0x1A	; 26
+ 266:	90 e0       	ldi	r25, 0x00	; 0
+ 268:	98 df       	rcall	.-208    	; 0x19a <lcd_setCursorPosition>
 		lcd_writeChar('A');
- 26c:	81 e4       	ldi	r24, 0x41	; 65
- 26e:	77 df       	rcall	.-274    	; 0x15e <lcd_writeChar>
- 270:	9f e3       	ldi	r25, 0x3F	; 63
- 272:	22 e4       	ldi	r18, 0x42	; 66
- 274:	8f e0       	ldi	r24, 0x0F	; 15
- 276:	91 50       	subi	r25, 0x01	; 1
- 278:	20 40       	sbci	r18, 0x00	; 0
- 27a:	80 40       	sbci	r24, 0x00	; 0
- 27c:	e1 f7       	brne	.-8      	; 0x276 <main+0x4e>
- 27e:	00 c0       	rjmp	.+0      	; 0x280 <main+0x58>
- 280:	00 00       	nop
- 282:	e9 cf       	rjmp	.-46     	; 0x256 <main+0x2e>
+ 26a:	81 e4       	ldi	r24, 0x41	; 65
+ 26c:	78 df       	rcall	.-272    	; 0x15e <lcd_writeChar>
+ 26e:	9f e3       	ldi	r25, 0x3F	; 63
+ 270:	22 e4       	ldi	r18, 0x42	; 66
+ 272:	8f e0       	ldi	r24, 0x0F	; 15
+ 274:	91 50       	subi	r25, 0x01	; 1
+ 276:	20 40       	sbci	r18, 0x00	; 0
+ 278:	80 40       	sbci	r24, 0x00	; 0
+ 27a:	e1 f7       	brne	.-8      	; 0x274 <main+0x4c>
+ 27c:	00 c0       	rjmp	.+0      	; 0x27e <main+0x56>
+ 27e:	00 00       	nop
+ 280:	ea cf       	rjmp	.-44     	; 0x256 <main+0x2e>
 
-00000284 <_exit>:
- 284:	f8 94       	cli
+00000282 <_exit>:
+ 282:	f8 94       	cli
 
-00000286 <__stop_program>:
- 286:	ff cf       	rjmp	.-2      	; 0x286 <__stop_program>
+00000284 <__stop_program>:
+ 284:	ff cf       	rjmp	.-2      	; 0x284 <__stop_program>

@@ -37,7 +37,6 @@
 
 int main (void)
 {
-	/* Insert system clock initialization code here (sysclk_init()). */
 	char c[] = "Test";
 	init_lcd();
 	_delay_ms(25);
@@ -45,10 +44,7 @@ int main (void)
 	{
 		lcd_command(0x01);
 		lcd_writeLine(c, 1);
-		//_delay_ms(5000);
-		//lcd_writeLine2(c, sizeof(c));
-		//_delay_ms(5000);
-		lcd_setCursorPosition(11, 2);
+		lcd_setCursorPosition(26);
 		lcd_writeChar('A');
 		_delay_ms(5000);
 	}
