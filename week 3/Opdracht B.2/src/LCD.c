@@ -62,7 +62,7 @@
 	 PORTC = 0x00;
  }
 
- void lcd_setCursorPosition(unsigned char position, int line)
+ void lcd_setCursorPosition(int position, int line)
  {
 	if(line == 2)
 	{

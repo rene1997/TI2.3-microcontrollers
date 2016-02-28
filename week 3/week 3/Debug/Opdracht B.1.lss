@@ -484,10 +484,10 @@ int main (void)
 		//_delay_ms(5000);
 		//lcd_writeLine2(c, sizeof(c));
 		//_delay_ms(5000);
-		lcd_setCursorPosition(0x0a, 2);
+		lcd_setCursorPosition(11, 2);
  264:	62 e0       	ldi	r22, 0x02	; 2
  266:	70 e0       	ldi	r23, 0x00	; 0
- 268:	8a e0       	ldi	r24, 0x0A	; 10
+ 268:	8b e0       	ldi	r24, 0x0B	; 11
  26a:	97 df       	rcall	.-210    	; 0x19a <lcd_setCursorPosition>
 		lcd_writeChar('A');
  26c:	81 e4       	ldi	r24, 0x41	; 65

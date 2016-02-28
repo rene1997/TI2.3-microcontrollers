@@ -48,7 +48,7 @@ int main (void)
 		//_delay_ms(5000);
 		//lcd_writeLine2(c, sizeof(c));
 		//_delay_ms(5000);
-		lcd_setCursorPosition(0x0a, 2);
+		lcd_setCursorPosition(11, 2);
 		lcd_writeChar('A');
 		_delay_ms(5000);
 	}
