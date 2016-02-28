@@ -13,6 +13,6 @@ void init_lcd();
 void lcd_command(unsigned char);
 void lcd_writeChar( unsigned char);
 void lcd_setCursorPosition(unsigned char position, int line);
-void lcd_writeLine ( char text1[], int length, int line);
+void lcd_writeLine ( char text[], int line);
 
 #endif /* LCD_H_ */
