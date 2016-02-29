@@ -30,16 +30,23 @@
  */
 #include <asf.h>
 #include <util/delay.h>
+#include <stdio.h>
 #include "LCD.h"
 
+
 #define BIT(x) (1<<(x))	
-int position;
+
+char numbers[4];
+int amountpressed = 0;
 
 ISR( TIMER2_OVF_vect )
 {
-	lcd_writeChar("t");
-	lcd_setCursorPosition(position);
-	position++;
+	sprintf(numbers,"%d",amountpressed);
+	lcd_writeLine(numbers, 1);
+	amountpressed ++;
+
+	lcd_setCursorPosition(0);
+	TCNT2 = -1;
 }
 
 int main (void)
@@ -50,12 +57,14 @@ int main (void)
 	_delay_ms(25);
 	TCNT2 = -1; // of TCNT2=0xf6
 	TIMSK |= BIT(6); // T2 overflow interrupt enable, p. 162
-	TCCR2 = 0b00000111;
+	TCCR2 = 0b00011111; //ext counting, rising
+
 	DDRD &= ~BIT(7);
+
 	sei();
-	
 	while(1)
 	{
+		
 
 	}
 }
