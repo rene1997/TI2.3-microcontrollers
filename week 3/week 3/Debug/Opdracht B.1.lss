@@ -450,7 +450,6 @@ int main (void)
  230:	1f 92       	push	r1
  232:	cd b7       	in	r28, 0x3d	; 61
  234:	de b7       	in	r29, 0x3e	; 62
-	/* Insert system clock initialization code here (sysclk_init()). */
 	char c[] = "Test";
  236:	85 e0       	ldi	r24, 0x05	; 5
  238:	e0 e0       	ldi	r30, 0x00	; 0
@@ -481,9 +480,6 @@ int main (void)
  25e:	ce 01       	movw	r24, r28
  260:	01 96       	adiw	r24, 0x01	; 1
  262:	a4 df       	rcall	.-184    	; 0x1ac <lcd_writeLine>
-		//_delay_ms(5000);
-		//lcd_writeLine2(c, sizeof(c));
-		//_delay_ms(5000);
 		lcd_setCursorPosition(26);
  264:	8a e1       	ldi	r24, 0x1A	; 26
  266:	90 e0       	ldi	r25, 0x00	; 0

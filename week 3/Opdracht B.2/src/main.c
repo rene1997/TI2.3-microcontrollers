@@ -33,17 +33,13 @@
 #include "LCD.h"
 
 #define BIT(x) (1<<(x))	
-
-int TimerPreset = -10;
-int count = 0;
+int position;
 
 ISR( TIMER2_OVF_vect )
 {
-	TCNT2 = TimerPreset; // Preset value
-	if (PIND1)
-	{
-		count++; // Increment counter
-	}
+	lcd_writeChar("t");
+	lcd_setCursorPosition(position);
+	position++;
 }
 
 int main (void)
@@ -52,16 +48,14 @@ int main (void)
 
 	init_lcd();
 	_delay_ms(25);
-	TIMSK |= BIT(6);// T2 overflow interrupt enable 
+	TCNT2 = -1; // of TCNT2=0xf6
+	TIMSK |= BIT(6); // T2 overflow interrupt enable, p. 162
+	TCCR2 = 0b00000111;
+	DDRD &= ~BIT(7);
 	sei();
-	TCCR2 = 0b00000111;// counter, normal mode, run
-	DDRD &= ~BIT(1); // set PORTD.1 for input
-	TCNT2 = 0;
 	
 	while(1)
 	{
-		 lcd_command(0x01);
-		 _delay_ms(25);
-		lcd_writeChar(count);
+
 	}
 }
