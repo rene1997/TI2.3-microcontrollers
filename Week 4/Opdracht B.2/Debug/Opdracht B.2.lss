@@ -1,0 +1,345 @@
+
+Opdracht B.2.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000000  00800100  00800100  000001c6  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         00000172  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .comment      00000030  00000000  00000000  000001c6  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000001f8  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000038  00000000  00000000  00000234  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   00000309  00000000  00000000  0000026c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 000001a9  00000000  00000000  00000575  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   000003ca  00000000  00000000  0000071e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000060  00000000  00000000  00000ae8  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    00007304  00000000  00000000  00000b48  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    00000119  00000000  00000000  00007e4c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000050  00000000  00000000  00007f65  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_macro  0000022e  00000000  00000000  00007fb5  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	45 c0       	rjmp	.+138    	; 0x8c <__ctors_end>
+   2:	00 00       	nop
+   4:	53 c0       	rjmp	.+166    	; 0xac <__bad_interrupt>
+   6:	00 00       	nop
+   8:	51 c0       	rjmp	.+162    	; 0xac <__bad_interrupt>
+   a:	00 00       	nop
+   c:	4f c0       	rjmp	.+158    	; 0xac <__bad_interrupt>
+   e:	00 00       	nop
+  10:	4d c0       	rjmp	.+154    	; 0xac <__bad_interrupt>
+  12:	00 00       	nop
+  14:	4b c0       	rjmp	.+150    	; 0xac <__bad_interrupt>
+  16:	00 00       	nop
+  18:	49 c0       	rjmp	.+146    	; 0xac <__bad_interrupt>
+  1a:	00 00       	nop
+  1c:	47 c0       	rjmp	.+142    	; 0xac <__bad_interrupt>
+  1e:	00 00       	nop
+  20:	45 c0       	rjmp	.+138    	; 0xac <__bad_interrupt>
+  22:	00 00       	nop
+  24:	43 c0       	rjmp	.+134    	; 0xac <__bad_interrupt>
+  26:	00 00       	nop
+  28:	41 c0       	rjmp	.+130    	; 0xac <__bad_interrupt>
+  2a:	00 00       	nop
+  2c:	3f c0       	rjmp	.+126    	; 0xac <__bad_interrupt>
+  2e:	00 00       	nop
+  30:	3d c0       	rjmp	.+122    	; 0xac <__bad_interrupt>
+  32:	00 00       	nop
+  34:	3b c0       	rjmp	.+118    	; 0xac <__bad_interrupt>
+  36:	00 00       	nop
+  38:	39 c0       	rjmp	.+114    	; 0xac <__bad_interrupt>
+  3a:	00 00       	nop
+  3c:	37 c0       	rjmp	.+110    	; 0xac <__bad_interrupt>
+  3e:	00 00       	nop
+  40:	35 c0       	rjmp	.+106    	; 0xac <__bad_interrupt>
+  42:	00 00       	nop
+  44:	33 c0       	rjmp	.+102    	; 0xac <__bad_interrupt>
+  46:	00 00       	nop
+  48:	31 c0       	rjmp	.+98     	; 0xac <__bad_interrupt>
+  4a:	00 00       	nop
+  4c:	2f c0       	rjmp	.+94     	; 0xac <__bad_interrupt>
+  4e:	00 00       	nop
+  50:	2d c0       	rjmp	.+90     	; 0xac <__bad_interrupt>
+  52:	00 00       	nop
+  54:	2b c0       	rjmp	.+86     	; 0xac <__bad_interrupt>
+  56:	00 00       	nop
+  58:	29 c0       	rjmp	.+82     	; 0xac <__bad_interrupt>
+  5a:	00 00       	nop
+  5c:	27 c0       	rjmp	.+78     	; 0xac <__bad_interrupt>
+  5e:	00 00       	nop
+  60:	25 c0       	rjmp	.+74     	; 0xac <__bad_interrupt>
+  62:	00 00       	nop
+  64:	23 c0       	rjmp	.+70     	; 0xac <__bad_interrupt>
+  66:	00 00       	nop
+  68:	21 c0       	rjmp	.+66     	; 0xac <__bad_interrupt>
+  6a:	00 00       	nop
+  6c:	1f c0       	rjmp	.+62     	; 0xac <__bad_interrupt>
+  6e:	00 00       	nop
+  70:	1d c0       	rjmp	.+58     	; 0xac <__bad_interrupt>
+  72:	00 00       	nop
+  74:	1b c0       	rjmp	.+54     	; 0xac <__bad_interrupt>
+  76:	00 00       	nop
+  78:	19 c0       	rjmp	.+50     	; 0xac <__bad_interrupt>
+  7a:	00 00       	nop
+  7c:	17 c0       	rjmp	.+46     	; 0xac <__bad_interrupt>
+  7e:	00 00       	nop
+  80:	15 c0       	rjmp	.+42     	; 0xac <__bad_interrupt>
+  82:	00 00       	nop
+  84:	13 c0       	rjmp	.+38     	; 0xac <__bad_interrupt>
+  86:	00 00       	nop
+  88:	11 c0       	rjmp	.+34     	; 0xac <__bad_interrupt>
+	...
+
+0000008c <__ctors_end>:
+  8c:	11 24       	eor	r1, r1
+  8e:	1f be       	out	0x3f, r1	; 63
+  90:	cf ef       	ldi	r28, 0xFF	; 255
+  92:	d0 e1       	ldi	r29, 0x10	; 16
+  94:	de bf       	out	0x3e, r29	; 62
+  96:	cd bf       	out	0x3d, r28	; 61
+
+00000098 <__do_clear_bss>:
+  98:	21 e0       	ldi	r18, 0x01	; 1
+  9a:	a0 e0       	ldi	r26, 0x00	; 0
+  9c:	b1 e0       	ldi	r27, 0x01	; 1
+  9e:	01 c0       	rjmp	.+2      	; 0xa2 <.do_clear_bss_start>
+
+000000a0 <.do_clear_bss_loop>:
+  a0:	1d 92       	st	X+, r1
+
+000000a2 <.do_clear_bss_start>:
+  a2:	a0 30       	cpi	r26, 0x00	; 0
+  a4:	b2 07       	cpc	r27, r18
+  a6:	e1 f7       	brne	.-8      	; 0xa0 <.do_clear_bss_loop>
+  a8:	31 d0       	rcall	.+98     	; 0x10c <main>
+  aa:	61 c0       	rjmp	.+194    	; 0x16e <_exit>
+
+000000ac <__bad_interrupt>:
+  ac:	a9 cf       	rjmp	.-174    	; 0x0 <__vectors>
+
+000000ae <wait>:
+
+// wait(): busy waiting for 'ms' millisecond
+// Used library: util/delay.h
+void wait( int ms )
+{
+	for (int tms=0; tms<ms; tms++)
+  ae:	18 16       	cp	r1, r24
+  b0:	19 06       	cpc	r1, r25
+  b2:	6c f4       	brge	.+26     	; 0xce <wait+0x20>
+  b4:	20 e0       	ldi	r18, 0x00	; 0
+  b6:	30 e0       	ldi	r19, 0x00	; 0
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  b8:	e9 ef       	ldi	r30, 0xF9	; 249
+  ba:	f0 e0       	ldi	r31, 0x00	; 0
+  bc:	31 97       	sbiw	r30, 0x01	; 1
+  be:	f1 f7       	brne	.-4      	; 0xbc <wait+0xe>
+  c0:	00 c0       	rjmp	.+0      	; 0xc2 <wait+0x14>
+  c2:	00 00       	nop
+  c4:	2f 5f       	subi	r18, 0xFF	; 255
+  c6:	3f 4f       	sbci	r19, 0xFF	; 255
+  c8:	28 17       	cp	r18, r24
+  ca:	39 07       	cpc	r19, r25
+  cc:	a9 f7       	brne	.-22     	; 0xb8 <wait+0xa>
+  ce:	08 95       	ret
+
+000000d0 <timer1Init>:
+}
+
+// Initialize timer 1: fast PWM at pin PORTB.6 (hundredth ms)
+void timer1Init( void )
+{
+	OCR1A = 0;					// RED, default, off
+  d0:	1b bc       	out	0x2b, r1	; 43
+  d2:	1a bc       	out	0x2a, r1	; 42
+	OCR1B = 0;					// GREEN, default, off
+  d4:	19 bc       	out	0x29, r1	; 41
+  d6:	18 bc       	out	0x28, r1	; 40
+	OCR1C = 0;					// BLUE, default, off
+  d8:	10 92 79 00 	sts	0x0079, r1
+  dc:	10 92 78 00 	sts	0x0078, r1
+	TCCR1A = 0b10101001;		// compare output OC1A,OC1B,OC1C
+  e0:	89 ea       	ldi	r24, 0xA9	; 169
+  e2:	8f bd       	out	0x2f, r24	; 47
+	TCCR1B = 0b00001011;		// fast PWM 8 bit, prescaler=64, RUN
+  e4:	8b e0       	ldi	r24, 0x0B	; 11
+  e6:	8e bd       	out	0x2e, r24	; 46
+  e8:	08 95       	ret
+
+000000ea <setRed>:
+}
+
+// Set pulse width for RED on pin PB5, 0=off, 255=max
+void setRed( unsigned char red )
+{
+  ea:	cf 93       	push	r28
+  ec:	df 93       	push	r29
+	OCR1A = red;
+  ee:	c8 2f       	mov	r28, r24
+  f0:	d0 e0       	ldi	r29, 0x00	; 0
+  f2:	db bd       	out	0x2b, r29	; 43
+  f4:	ca bd       	out	0x2a, r28	; 42
+	wait(1000);
+  f6:	88 ee       	ldi	r24, 0xE8	; 232
+  f8:	93 e0       	ldi	r25, 0x03	; 3
+  fa:	d9 df       	rcall	.-78     	; 0xae <wait>
+	OCR1B = red;
+  fc:	d9 bd       	out	0x29, r29	; 41
+  fe:	c8 bd       	out	0x28, r28	; 40
+	wait(1000);
+ 100:	88 ee       	ldi	r24, 0xE8	; 232
+ 102:	93 e0       	ldi	r25, 0x03	; 3
+ 104:	d4 df       	rcall	.-88     	; 0xae <wait>
+}
+ 106:	df 91       	pop	r29
+ 108:	cf 91       	pop	r28
+ 10a:	08 95       	ret
+
+0000010c <main>:
+// void setBlue( unsigned char blue)
+
+// Main program: Counting on T1
+int main( void )
+{
+	DDRB = 0xFF;					// set PORTB for compare output 
+ 10c:	8f ef       	ldi	r24, 0xFF	; 255
+ 10e:	87 bb       	out	0x17, r24	; 23
+	timer1Init();
+ 110:	df df       	rcall	.-66     	; 0xd0 <timer1Init>
+	wait(100);
+ 112:	84 e6       	ldi	r24, 0x64	; 100
+ 114:	90 e0       	ldi	r25, 0x00	; 0
+ 116:	cb df       	rcall	.-106    	; 0xae <wait>
+		int delta = 1;
+		setRed (0);
+
+		// change some colors
+		// RED
+		for (int red = 0; red<=255; red+=delta)
+ 118:	c1 2c       	mov	r12, r1
+ 11a:	d1 2c       	mov	r13, r1
+	timer1Init();
+	wait(100);
+
+	while (1)
+	{
+		int delta = 1;
+ 11c:	ee 24       	eor	r14, r14
+ 11e:	e3 94       	inc	r14
+ 120:	f1 2c       	mov	r15, r1
+ 122:	aa 24       	eor	r10, r10
+ 124:	aa 94       	dec	r10
+ 126:	b1 2c       	mov	r11, r1
+		setRed (0);
+ 128:	80 e0       	ldi	r24, 0x00	; 0
+ 12a:	df df       	rcall	.-66     	; 0xea <setRed>
+
+		// change some colors
+		// RED
+		for (int red = 0; red<=255; red+=delta)
+ 12c:	0c 2d       	mov	r16, r12
+ 12e:	1d 2d       	mov	r17, r13
+	timer1Init();
+	wait(100);
+
+	while (1)
+	{
+		int delta = 1;
+ 130:	ce 2d       	mov	r28, r14
+ 132:	df 2d       	mov	r29, r15
+
+		// change some colors
+		// RED
+		for (int red = 0; red<=255; red+=delta)
+		{
+			setRed( red );				// 8-bits PWM on pin OCR1a 
+ 134:	80 2f       	mov	r24, r16
+ 136:	d9 df       	rcall	.-78     	; 0xea <setRed>
+			delta += 2;					// progressive steps up
+ 138:	22 96       	adiw	r28, 0x02	; 2
+			wait(100);					// delay of 100 ms (busy waiting)
+ 13a:	84 e6       	ldi	r24, 0x64	; 100
+ 13c:	90 e0       	ldi	r25, 0x00	; 0
+ 13e:	b7 df       	rcall	.-146    	; 0xae <wait>
+		int delta = 1;
+		setRed (0);
+
+		// change some colors
+		// RED
+		for (int red = 0; red<=255; red+=delta)
+ 140:	0c 0f       	add	r16, r28
+ 142:	1d 1f       	adc	r17, r29
+ 144:	0f 3f       	cpi	r16, 0xFF	; 255
+ 146:	11 05       	cpc	r17, r1
+ 148:	a9 f3       	breq	.-22     	; 0x134 <main+0x28>
+ 14a:	a4 f3       	brlt	.-24     	; 0x134 <main+0x28>
+ 14c:	0a 2d       	mov	r16, r10
+ 14e:	1b 2d       	mov	r17, r11
+			delta += 2;					// progressive steps up
+			wait(100);					// delay of 100 ms (busy waiting)
+		}
+		for (int red = 255; red>=0; red-=delta)
+		{
+			setRed( red );				// 8-bits PWM on pin OCR1a 
+ 150:	80 2f       	mov	r24, r16
+ 152:	cb df       	rcall	.-106    	; 0xea <setRed>
+			delta -= 2;					// progressive steps down
+ 154:	22 97       	sbiw	r28, 0x02	; 2
+			wait(100);					// delay of 100 ms (busy waiting)
+ 156:	84 e6       	ldi	r24, 0x64	; 100
+ 158:	90 e0       	ldi	r25, 0x00	; 0
+ 15a:	a9 df       	rcall	.-174    	; 0xae <wait>
+		{
+			setRed( red );				// 8-bits PWM on pin OCR1a 
+			delta += 2;					// progressive steps up
+			wait(100);					// delay of 100 ms (busy waiting)
+		}
+		for (int red = 255; red>=0; red-=delta)
+ 15c:	0c 1b       	sub	r16, r28
+ 15e:	1d 0b       	sbc	r17, r29
+ 160:	ba f7       	brpl	.-18     	; 0x150 <main+0x44>
+		{
+			setRed( red );				// 8-bits PWM on pin OCR1a 
+			delta -= 2;					// progressive steps down
+			wait(100);					// delay of 100 ms (busy waiting)
+		}
+		setRed( 0 );
+ 162:	80 e0       	ldi	r24, 0x00	; 0
+ 164:	c2 df       	rcall	.-124    	; 0xea <setRed>
+		delta = 1;
+		wait(100);
+ 166:	84 e6       	ldi	r24, 0x64	; 100
+ 168:	90 e0       	ldi	r25, 0x00	; 0
+ 16a:	a1 df       	rcall	.-190    	; 0xae <wait>
+
+
+		// WHITE
+		// for (int white = 0; white<=255; white += delta)
+		// . . .
+	} 
+ 16c:	dd cf       	rjmp	.-70     	; 0x128 <main+0x1c>
+
+0000016e <_exit>:
+ 16e:	f8 94       	cli
+
+00000170 <__stop_program>:
+ 170:	ff cf       	rjmp	.-2      	; 0x170 <__stop_program>
