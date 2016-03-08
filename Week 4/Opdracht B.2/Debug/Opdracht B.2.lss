@@ -3,31 +3,31 @@ Opdracht B.2.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800100  00800100  00000302  2**0
+  0 .data         00000000  00800100  00800100  00000216  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000002ae  00000000  00000000  00000054  2**1
+  1 .text         000001c2  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  00000302  2**0
+  2 .comment      00000030  00000000  00000000  00000216  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000334  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000248  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000048  00000000  00000000  00000370  2**0
+  4 .debug_aranges 00000048  00000000  00000000  00000284  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   000005a1  00000000  00000000  000003b8  2**0
+  5 .debug_info   0000043b  00000000  00000000  000002cc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 000001ca  00000000  00000000  00000959  2**0
+  6 .debug_abbrev 000001d7  00000000  00000000  00000707  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   000004bf  00000000  00000000  00000b23  2**0
+  7 .debug_line   0000043d  00000000  00000000  000008de  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000084  00000000  00000000  00000fe4  2**2
+  8 .debug_frame  00000074  00000000  00000000  00000d1c  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00007338  00000000  00000000  00001068  2**0
+  9 .debug_str    0000731a  00000000  00000000  00000d90  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000397  00000000  00000000  000083a0  2**0
+ 10 .debug_loc    00000197  00000000  00000000  000080aa  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000108  00000000  00000000  00008737  2**0
+ 11 .debug_ranges 00000080  00000000  00000000  00008241  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_macro  0000022e  00000000  00000000  0000883f  2**0
+ 12 .debug_macro  0000022e  00000000  00000000  000082c1  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -126,7 +126,7 @@ Disassembly of section .text:
   a4:	b2 07       	cpc	r27, r18
   a6:	e1 f7       	brne	.-8      	; 0xa0 <.do_clear_bss_loop>
   a8:	20 d0       	rcall	.+64     	; 0xea <main>
-  aa:	ff c0       	rjmp	.+510    	; 0x2aa <_exit>
+  aa:	89 c0       	rjmp	.+274    	; 0x1be <_exit>
 
 000000ac <__bad_interrupt>:
   ac:	a9 cf       	rjmp	.-174    	; 0x0 <__vectors>
@@ -175,447 +175,268 @@ void setBlue( unsigned char blue )
 // Main program: Counting on T1
 int main( void )
 {
-  ea:	cf 93       	push	r28
-  ec:	df 93       	push	r29
-  ee:	cd b7       	in	r28, 0x3d	; 61
-  f0:	de b7       	in	r29, 0x3e	; 62
-  f2:	60 97       	sbiw	r28, 0x10	; 16
-  f4:	0f b6       	in	r0, 0x3f	; 63
-  f6:	f8 94       	cli
-  f8:	de bf       	out	0x3e, r29	; 62
-  fa:	0f be       	out	0x3f, r0	; 63
-  fc:	cd bf       	out	0x3d, r28	; 61
 	DDRB = 0xFF;					// set PORTB for compare output 
-  fe:	8f ef       	ldi	r24, 0xFF	; 255
- 100:	87 bb       	out	0x17, r24	; 23
+  ea:	8f ef       	ldi	r24, 0xFF	; 255
+  ec:	87 bb       	out	0x17, r24	; 23
 	timer1Init();
- 102:	e6 df       	rcall	.-52     	; 0xd0 <timer1Init>
+  ee:	f0 df       	rcall	.-32     	; 0xd0 <timer1Init>
 	wait(100);
- 104:	84 e6       	ldi	r24, 0x64	; 100
- 106:	90 e0       	ldi	r25, 0x00	; 0
- 108:	d2 df       	rcall	.-92     	; 0xae <wait>
-}
-
-// Set pulse width for Blue on pin PB7, 0=off, 255=max
-void setBlue( unsigned char blue )
-{
-	OCR1C = blue;
- 10a:	0f 2e       	mov	r0, r31
- 10c:	f8 e7       	ldi	r31, 0x78	; 120
- 10e:	2f 2e       	mov	r2, r31
- 110:	31 2c       	mov	r3, r1
- 112:	f0 2d       	mov	r31, r0
-}
-
-// Main program: Counting on T1
-int main( void )
-{
- 114:	29 e1       	ldi	r18, 0x19	; 25
- 116:	2b 87       	std	Y+11, r18	; 0x0b
- 118:	1c 86       	std	Y+12, r1	; 0x0c
- 11a:	31 e0       	ldi	r19, 0x01	; 1
- 11c:	3d 87       	std	Y+13, r19	; 0x0d
- 11e:	1e 86       	std	Y+14, r1	; 0x0e
- 120:	2b 83       	std	Y+3, r18	; 0x03
- 122:	80 e0       	ldi	r24, 0x00	; 0
- 124:	8c 83       	std	Y+4, r24	; 0x04
- 126:	9f ef       	ldi	r25, 0xFF	; 255
- 128:	99 83       	std	Y+1, r25	; 0x01
- 12a:	1a 82       	std	Y+2, r1	; 0x02
- 12c:	3d 83       	std	Y+5, r19	; 0x05
- 12e:	e0 e0       	ldi	r30, 0x00	; 0
- 130:	ee 83       	std	Y+6, r30	; 0x06
+  f0:	84 e6       	ldi	r24, 0x64	; 100
+  f2:	90 e0       	ldi	r25, 0x00	; 0
+  f4:	dc df       	rcall	.-72     	; 0xae <wait>
 }
 
 // Set pulse width for RED on pin PB5, 0=off, 255=max
 void setRed( unsigned char red )
 {
 	OCR1A = red;
- 132:	1b bc       	out	0x2b, r1	; 43
- 134:	1a bc       	out	0x2a, r1	; 42
+  f6:	aa 24       	eor	r10, r10
+  f8:	aa 94       	dec	r10
+  fa:	b1 2c       	mov	r11, r1
 }
 
 // Set pulse width for Green on pin PB6, 0=off, 255=max
 void setGreen( unsigned char green )
 {
 	OCR1B = green;
- 136:	19 bc       	out	0x29, r1	; 41
- 138:	18 bc       	out	0x28, r1	; 40
+  fc:	cc 24       	eor	r12, r12
+  fe:	c3 94       	inc	r12
+ 100:	d1 2c       	mov	r13, r1
 }
 
 // Set pulse width for Blue on pin PB7, 0=off, 255=max
 void setBlue( unsigned char blue )
 {
 	OCR1C = blue;
- 13a:	f1 01       	movw	r30, r2
- 13c:	11 82       	std	Z+1, r1	; 0x01
- 13e:	10 82       	st	Z, r1
-		setGreen(0);
-		setBlue(0);
-		
-		// change some colors
-		// RED
-		for (int red = 25; red<=255; red+=deltaRed)
- 140:	f9 e1       	ldi	r31, 0x19	; 25
- 142:	ff 83       	std	Y+7, r31	; 0x07
- 144:	18 86       	std	Y+8, r1	; 0x08
-	timer1Init();
-	wait(100);
+ 102:	0f 2e       	mov	r0, r31
+ 104:	f8 e7       	ldi	r31, 0x78	; 120
+ 106:	ef 2e       	mov	r14, r31
+ 108:	f1 2c       	mov	r15, r1
+ 10a:	f0 2d       	mov	r31, r0
+}
+
+// Set pulse width for RED on pin PB5, 0=off, 255=max
+void setRed( unsigned char red )
+{
+	OCR1A = red;
+ 10c:	bb bc       	out	0x2b, r11	; 43
+ 10e:	aa bc       	out	0x2a, r10	; 42
+}
+
+// Set pulse width for Green on pin PB6, 0=off, 255=max
+void setGreen( unsigned char green )
+{
+	OCR1B = green;
+ 110:	d9 bc       	out	0x29, r13	; 41
+ 112:	c8 bc       	out	0x28, r12	; 40
+}
+
+// Set pulse width for Blue on pin PB7, 0=off, 255=max
+void setBlue( unsigned char blue )
+{
+	OCR1C = blue;
+ 114:	f7 01       	movw	r30, r14
+ 116:	d1 82       	std	Z+1, r13	; 0x01
+ 118:	c0 82       	st	Z, r12
 
 	while (1)
 	{
-		int deltaRed = 1;
- 146:	21 e0       	ldi	r18, 0x01	; 1
- 148:	29 87       	std	Y+9, r18	; 0x09
- 14a:	1a 86       	std	Y+10, r1	; 0x0a
-		int deltaBlue = 1;
- 14c:	44 24       	eor	r4, r4
- 14e:	43 94       	inc	r4
- 150:	51 2c       	mov	r5, r1
- 152:	a3 c0       	rjmp	.+326    	; 0x29a <main+0x1b0>
- 154:	58 01       	movw	r10, r16
-}
-
-// Set pulse width for RED on pin PB5, 0=off, 255=max
-void setRed( unsigned char red )
-{
-	OCR1A = red;
- 156:	1b bd       	out	0x2b, r17	; 43
- 158:	0a bd       	out	0x2a, r16	; 42
- 15a:	67 01       	movw	r12, r14
+		int Red = 255;
+		int Blue = 1;
+		int Green = 1;
+ 11a:	e6 01       	movw	r28, r12
+ 11c:	ce 01       	movw	r24, r28
+ 11e:	99 27       	eor	r25, r25
 }
 
 // Set pulse width for Green on pin PB6, 0=off, 255=max
 void setGreen( unsigned char green )
 {
 	OCR1B = green;
- 15c:	f9 bc       	out	0x29, r15	; 41
- 15e:	e8 bc       	out	0x28, r14	; 40
- 160:	8f 85       	ldd	r24, Y+15	; 0x0f
- 162:	98 89       	ldd	r25, Y+16	; 0x10
- 164:	99 27       	eor	r25, r25
-}
+ 120:	99 bd       	out	0x29, r25	; 41
+ 122:	88 bd       	out	0x28, r24	; 40
+		setGreen(Green);
+		setBlue(Blue);
 
-// Set pulse width for Blue on pin PB7, 0=off, 255=max
-void setBlue( unsigned char blue )
-{
-	OCR1C = blue;
- 166:	f1 01       	movw	r30, r2
- 168:	91 83       	std	Z+1, r25	; 0x01
- 16a:	80 83       	st	Z, r24
-				for(int blue = 25; blue <= 255; blue += deltaBlue)
-				{
-					setRed( red );				// 8-bits PWM on pin OCR1a
-					setGreen(green);
-					setBlue(blue);
-					deltaBlue += 2;					// progressive steps up
- 16c:	f2 e0       	ldi	r31, 0x02	; 2
- 16e:	4f 0e       	add	r4, r31
- 170:	51 1c       	adc	r5, r1
-					wait(200);					// delay of 100 ms (busy waiting)
- 172:	88 ec       	ldi	r24, 0xC8	; 200
- 174:	90 e0       	ldi	r25, 0x00	; 0
- 176:	9b df       	rcall	.-202    	; 0xae <wait>
-		// RED
-		for (int red = 25; red<=255; red+=deltaRed)
-		{
-			for(int green = 25 ; green <= 255; green +=deltaGreen)
-			{
-				for(int blue = 25; blue <= 255; blue += deltaBlue)
- 178:	2f 85       	ldd	r18, Y+15	; 0x0f
- 17a:	38 89       	ldd	r19, Y+16	; 0x10
- 17c:	24 0d       	add	r18, r4
- 17e:	35 1d       	adc	r19, r5
- 180:	38 8b       	std	Y+16, r19	; 0x10
- 182:	2f 87       	std	Y+15, r18	; 0x0f
- 184:	2f 3f       	cpi	r18, 0xFF	; 255
- 186:	31 05       	cpc	r19, r1
- 188:	29 f3       	breq	.-54     	; 0x154 <main+0x6a>
- 18a:	24 f3       	brlt	.-56     	; 0x154 <main+0x6a>
- 18c:	e9 80       	ldd	r14, Y+1	; 0x01
- 18e:	fa 80       	ldd	r15, Y+2	; 0x02
- 190:	4d 80       	ldd	r4, Y+5	; 0x05
- 192:	5e 80       	ldd	r5, Y+6	; 0x06
+		for(; Green <= 254; Green += 2){
+			setGreen(Green);
+			wait(100);
+ 124:	84 e6       	ldi	r24, 0x64	; 100
+ 126:	90 e0       	ldi	r25, 0x00	; 0
+ 128:	c2 df       	rcall	.-124    	; 0xae <wait>
+		int Green = 1;
+		setRed (Red);
+		setGreen(Green);
+		setBlue(Blue);
+
+		for(; Green <= 254; Green += 2){
+ 12a:	22 96       	adiw	r28, 0x02	; 2
+ 12c:	cf 3f       	cpi	r28, 0xFF	; 255
+ 12e:	d1 05       	cpc	r29, r1
+ 130:	a9 f7       	brne	.-22     	; 0x11c <main+0x32>
+ 132:	85 01       	movw	r16, r10
+ 134:	c8 01       	movw	r24, r16
+ 136:	99 27       	eor	r25, r25
 }
 
 // Set pulse width for RED on pin PB5, 0=off, 255=max
 void setRed( unsigned char red )
 {
 	OCR1A = red;
- 194:	1b bd       	out	0x2b, r17	; 43
- 196:	0a bd       	out	0x2a, r16	; 42
-}
+ 138:	9b bd       	out	0x2b, r25	; 43
+ 13a:	8a bd       	out	0x2a, r24	; 42
+			setGreen(Green);
+			wait(100);
+		}
+		for(; Red >= 1; Red -=2){
+			setRed(Red);
+			wait(100);
+ 13c:	84 e6       	ldi	r24, 0x64	; 100
+ 13e:	90 e0       	ldi	r25, 0x00	; 0
+ 140:	b6 df       	rcall	.-148    	; 0xae <wait>
 
-// Set pulse width for Green on pin PB6, 0=off, 255=max
-void setGreen( unsigned char green )
-{
-	OCR1B = green;
- 198:	d9 bc       	out	0x29, r13	; 41
- 19a:	c8 bc       	out	0x28, r12	; 40
- 19c:	c7 01       	movw	r24, r14
- 19e:	99 27       	eor	r25, r25
+		for(; Green <= 254; Green += 2){
+			setGreen(Green);
+			wait(100);
+		}
+		for(; Red >= 1; Red -=2){
+ 142:	02 50       	subi	r16, 0x02	; 2
+ 144:	11 09       	sbc	r17, r1
+ 146:	0f 3f       	cpi	r16, 0xFF	; 255
+ 148:	ff ef       	ldi	r31, 0xFF	; 255
+ 14a:	1f 07       	cpc	r17, r31
+ 14c:	99 f7       	brne	.-26     	; 0x134 <main+0x4a>
+ 14e:	46 01       	movw	r8, r12
+ 150:	c4 01       	movw	r24, r8
+ 152:	99 27       	eor	r25, r25
 }
 
 // Set pulse width for Blue on pin PB7, 0=off, 255=max
 void setBlue( unsigned char blue )
 {
 	OCR1C = blue;
- 1a0:	f1 01       	movw	r30, r2
- 1a2:	91 83       	std	Z+1, r25	; 0x01
- 1a4:	80 83       	st	Z, r24
-				for (int blue = 255; blue>=0; blue-= deltaBlue)
-				{
-					setRed( red );				// 8-bits PWM on pin OCR1a
-					setGreen(green);
-					setBlue(blue);
-					deltaBlue += 2;					// progressive steps down
- 1a6:	f2 e0       	ldi	r31, 0x02	; 2
- 1a8:	4f 0e       	add	r4, r31
- 1aa:	51 1c       	adc	r5, r1
-					wait(200);					// delay of 100 ms (busy waiting)
- 1ac:	88 ec       	ldi	r24, 0xC8	; 200
- 1ae:	90 e0       	ldi	r25, 0x00	; 0
- 1b0:	7e df       	rcall	.-260    	; 0xae <wait>
-					setBlue(blue);
-					deltaBlue += 2;					// progressive steps up
-					wait(200);					// delay of 100 ms (busy waiting)
-				}
-				deltaBlue = 1;
-				for (int blue = 255; blue>=0; blue-= deltaBlue)
- 1b2:	e4 18       	sub	r14, r4
- 1b4:	f5 08       	sbc	r15, r5
- 1b6:	72 f7       	brpl	.-36     	; 0x194 <main+0xaa>
-					setGreen(green);
-					setBlue(blue);
-					deltaBlue += 2;					// progressive steps down
-					wait(200);					// delay of 100 ms (busy waiting)
-				}
-				deltaGreen +=2;
- 1b8:	22 e0       	ldi	r18, 0x02	; 2
- 1ba:	62 0e       	add	r6, r18
- 1bc:	71 1c       	adc	r7, r1
-				wait(200);
- 1be:	88 ec       	ldi	r24, 0xC8	; 200
- 1c0:	90 e0       	ldi	r25, 0x00	; 0
- 1c2:	75 df       	rcall	.-278    	; 0xae <wait>
-		
-		// change some colors
-		// RED
-		for (int red = 25; red<=255; red+=deltaRed)
-		{
-			for(int green = 25 ; green <= 255; green +=deltaGreen)
- 1c4:	86 0c       	add	r8, r6
- 1c6:	97 1c       	adc	r9, r7
- 1c8:	3f ef       	ldi	r19, 0xFF	; 255
- 1ca:	83 16       	cp	r8, r19
- 1cc:	91 04       	cpc	r9, r1
- 1ce:	11 f0       	breq	.+4      	; 0x1d4 <main+0xea>
- 1d0:	0c f0       	brlt	.+2      	; 0x1d4 <main+0xea>
- 1d2:	42 c0       	rjmp	.+132    	; 0x258 <main+0x16e>
-	OCR1C = blue;
+ 154:	f7 01       	movw	r30, r14
+ 156:	91 83       	std	Z+1, r25	; 0x01
+ 158:	80 83       	st	Z, r24
+			wait(100);
+		}
+
+		for(; Blue <=254; Blue +=2){
+			setBlue(Blue);
+			wait(100);
+ 15a:	84 e6       	ldi	r24, 0x64	; 100
+ 15c:	90 e0       	ldi	r25, 0x00	; 0
+ 15e:	a7 df       	rcall	.-178    	; 0xae <wait>
+		for(; Red >= 1; Red -=2){
+			setRed(Red);
+			wait(100);
+		}
+
+		for(; Blue <=254; Blue +=2){
+ 160:	f2 e0       	ldi	r31, 0x02	; 2
+ 162:	8f 0e       	add	r8, r31
+ 164:	91 1c       	adc	r9, r1
+ 166:	8f ef       	ldi	r24, 0xFF	; 255
+ 168:	88 16       	cp	r8, r24
+ 16a:	91 04       	cpc	r9, r1
+ 16c:	89 f7       	brne	.-30     	; 0x150 <main+0x66>
+ 16e:	ce 01       	movw	r24, r28
+ 170:	99 27       	eor	r25, r25
 }
 
-// Main program: Counting on T1
-int main( void )
+// Set pulse width for Green on pin PB6, 0=off, 255=max
+void setGreen( unsigned char green )
 {
- 1d4:	cb 80       	ldd	r12, Y+3	; 0x03
- 1d6:	dc 80       	ldd	r13, Y+4	; 0x04
- 1d8:	74 01       	movw	r14, r8
- 1da:	ff 24       	eor	r15, r15
- 1dc:	d8 8a       	std	Y+16, r13	; 0x10
- 1de:	cf 86       	std	Y+15, r12	; 0x0f
- 1e0:	b9 cf       	rjmp	.-142    	; 0x154 <main+0x6a>
+	OCR1B = green;
+ 172:	99 bd       	out	0x29, r25	; 41
+ 174:	88 bd       	out	0x28, r24	; 40
+			wait(100);
+		}
+
+		for(; Green >=1; Green -=2){
+			setGreen(Green);
+			wait(100);
+ 176:	84 e6       	ldi	r24, 0x64	; 100
+ 178:	90 e0       	ldi	r25, 0x00	; 0
+ 17a:	99 df       	rcall	.-206    	; 0xae <wait>
+		for(; Blue <=254; Blue +=2){
+			setBlue(Blue);
+			wait(100);
+		}
+
+		for(; Green >=1; Green -=2){
+ 17c:	22 97       	sbiw	r28, 0x02	; 2
+ 17e:	cf 3f       	cpi	r28, 0xFF	; 255
+ 180:	ef ef       	ldi	r30, 0xFF	; 255
+ 182:	de 07       	cpc	r29, r30
+ 184:	a1 f7       	brne	.-24     	; 0x16e <main+0x84>
+ 186:	c8 01       	movw	r24, r16
+ 188:	99 27       	eor	r25, r25
 }
 
 // Set pulse width for RED on pin PB5, 0=off, 255=max
 void setRed( unsigned char red )
 {
 	OCR1A = red;
- 1e2:	bb bc       	out	0x2b, r11	; 43
- 1e4:	aa bc       	out	0x2a, r10	; 42
- 1e6:	78 01       	movw	r14, r16
-}
+ 18a:	9b bd       	out	0x2b, r25	; 43
+ 18c:	8a bd       	out	0x2a, r24	; 42
+			wait(100);
+		}
 
-// Set pulse width for Green on pin PB6, 0=off, 255=max
-void setGreen( unsigned char green )
-{
-	OCR1B = green;
- 1e8:	19 bd       	out	0x29, r17	; 41
- 1ea:	08 bd       	out	0x28, r16	; 40
- 1ec:	8f 85       	ldd	r24, Y+15	; 0x0f
- 1ee:	98 89       	ldd	r25, Y+16	; 0x10
- 1f0:	99 27       	eor	r25, r25
-}
+		for(; Red <=254; Red -=2){
+			setRed(Red);
+			wait(100);
+ 18e:	84 e6       	ldi	r24, 0x64	; 100
+ 190:	90 e0       	ldi	r25, 0x00	; 0
+ 192:	8d df       	rcall	.-230    	; 0xae <wait>
+		for(; Green >=1; Green -=2){
+			setGreen(Green);
+			wait(100);
+		}
 
-// Set pulse width for Blue on pin PB7, 0=off, 255=max
-void setBlue( unsigned char blue )
-{
-	OCR1C = blue;
- 1f2:	f1 01       	movw	r30, r2
- 1f4:	91 83       	std	Z+1, r25	; 0x01
- 1f6:	80 83       	st	Z, r24
-				for(int blue = 25; blue <= 255; blue += deltaBlue)
-				{
-					setRed( red );				// 8-bits PWM on pin OCR1a
-					setGreen(green);
-					setBlue(blue);
-					deltaBlue += 2;					// progressive steps up
- 1f8:	f2 e0       	ldi	r31, 0x02	; 2
- 1fa:	4f 0e       	add	r4, r31
- 1fc:	51 1c       	adc	r5, r1
-					wait(200);					// delay of 100 ms (busy waiting)
- 1fe:	88 ec       	ldi	r24, 0xC8	; 200
- 200:	90 e0       	ldi	r25, 0x00	; 0
- 202:	55 df       	rcall	.-342    	; 0xae <wait>
-				deltaGreen +=2;
-				wait(200);
-			}
-			for(int green = 255 ; green >= 0; green -=deltaGreen)
-			{
-				for(int blue = 25; blue <= 255; blue += deltaBlue)
- 204:	2f 85       	ldd	r18, Y+15	; 0x0f
- 206:	38 89       	ldd	r19, Y+16	; 0x10
- 208:	24 0d       	add	r18, r4
- 20a:	35 1d       	adc	r19, r5
- 20c:	38 8b       	std	Y+16, r19	; 0x10
- 20e:	2f 87       	std	Y+15, r18	; 0x0f
- 210:	2f 3f       	cpi	r18, 0xFF	; 255
- 212:	31 05       	cpc	r19, r1
- 214:	31 f3       	breq	.-52     	; 0x1e2 <main+0xf8>
- 216:	2c f3       	brlt	.-54     	; 0x1e2 <main+0xf8>
- 218:	09 81       	ldd	r16, Y+1	; 0x01
- 21a:	1a 81       	ldd	r17, Y+2	; 0x02
- 21c:	41 2c       	mov	r4, r1
- 21e:	51 2c       	mov	r5, r1
-}
-
-// Set pulse width for RED on pin PB5, 0=off, 255=max
-void setRed( unsigned char red )
-{
-	OCR1A = red;
- 220:	bb bc       	out	0x2b, r11	; 43
- 222:	aa bc       	out	0x2a, r10	; 42
-}
-
-// Set pulse width for Green on pin PB6, 0=off, 255=max
-void setGreen( unsigned char green )
-{
-	OCR1B = green;
- 224:	f9 bc       	out	0x29, r15	; 41
- 226:	e8 bc       	out	0x28, r14	; 40
- 228:	c8 01       	movw	r24, r16
- 22a:	99 27       	eor	r25, r25
+		for(; Red <=254; Red -=2){
+ 194:	02 50       	subi	r16, 0x02	; 2
+ 196:	11 09       	sbc	r17, r1
+ 198:	0f 3f       	cpi	r16, 0xFF	; 255
+ 19a:	11 05       	cpc	r17, r1
+ 19c:	a4 f3       	brlt	.-24     	; 0x186 <main+0x9c>
+ 19e:	c4 01       	movw	r24, r8
+ 1a0:	99 27       	eor	r25, r25
 }
 
 // Set pulse width for Blue on pin PB7, 0=off, 255=max
 void setBlue( unsigned char blue )
 {
 	OCR1C = blue;
- 22c:	f1 01       	movw	r30, r2
- 22e:	91 83       	std	Z+1, r25	; 0x01
- 230:	80 83       	st	Z, r24
-				for (int blue = 255; blue>=0; blue-= deltaBlue)
-				{
-					setRed( red );				// 8-bits PWM on pin OCR1a
-					setGreen(green);
-					setBlue(blue);
-					deltaBlue += 2;					// progressive steps down
- 232:	f2 e0       	ldi	r31, 0x02	; 2
- 234:	4f 0e       	add	r4, r31
- 236:	51 1c       	adc	r5, r1
-					wait(50);					// delay of 100 ms (busy waiting)
- 238:	82 e3       	ldi	r24, 0x32	; 50
- 23a:	90 e0       	ldi	r25, 0x00	; 0
- 23c:	38 df       	rcall	.-400    	; 0xae <wait>
-					setBlue(blue);
-					deltaBlue += 2;					// progressive steps up
-					wait(200);					// delay of 100 ms (busy waiting)
-				}
-				deltaBlue = 0;
-				for (int blue = 255; blue>=0; blue-= deltaBlue)
- 23e:	04 19       	sub	r16, r4
- 240:	15 09       	sbc	r17, r5
- 242:	72 f7       	brpl	.-36     	; 0x220 <main+0x136>
-					setGreen(green);
-					setBlue(blue);
-					deltaBlue += 2;					// progressive steps down
-					wait(50);					// delay of 100 ms (busy waiting)
-				}
-				deltaGreen +=2;
- 244:	22 e0       	ldi	r18, 0x02	; 2
- 246:	62 0e       	add	r6, r18
- 248:	71 1c       	adc	r7, r1
-				wait(200);
- 24a:	88 ec       	ldi	r24, 0xC8	; 200
- 24c:	90 e0       	ldi	r25, 0x00	; 0
- 24e:	2f df       	rcall	.-418    	; 0xae <wait>
-					wait(200);					// delay of 100 ms (busy waiting)
-				}
-				deltaGreen +=2;
-				wait(200);
-			}
-			for(int green = 255 ; green >= 0; green -=deltaGreen)
- 250:	c6 18       	sub	r12, r6
- 252:	d7 08       	sbc	r13, r7
- 254:	32 f4       	brpl	.+12     	; 0x262 <main+0x178>
- 256:	0c c0       	rjmp	.+24     	; 0x270 <main+0x186>
- 258:	cc 24       	eor	r12, r12
- 25a:	ca 94       	dec	r12
- 25c:	d1 2c       	mov	r13, r1
- 25e:	8b 80       	ldd	r8, Y+3	; 0x03
- 260:	9c 80       	ldd	r9, Y+4	; 0x04
- 262:	e8 2c       	mov	r14, r8
- 264:	f9 2c       	mov	r15, r9
- 266:	86 01       	movw	r16, r12
- 268:	11 27       	eor	r17, r17
- 26a:	f8 8a       	std	Y+16, r15	; 0x10
- 26c:	ef 86       	std	Y+15, r14	; 0x0f
- 26e:	b9 cf       	rjmp	.-142    	; 0x1e2 <main+0xf8>
-				}
-				deltaGreen +=2;
-				wait(200);
-			}
-			deltaGreen = 1;
-			deltaRed +=2;
- 270:	89 85       	ldd	r24, Y+9	; 0x09
- 272:	9a 85       	ldd	r25, Y+10	; 0x0a
- 274:	02 96       	adiw	r24, 0x02	; 2
- 276:	9a 87       	std	Y+10, r25	; 0x0a
- 278:	89 87       	std	Y+9, r24	; 0x09
-			wait(100);	
- 27a:	84 e6       	ldi	r24, 0x64	; 100
- 27c:	90 e0       	ldi	r25, 0x00	; 0
- 27e:	17 df       	rcall	.-466    	; 0xae <wait>
-		setGreen(0);
-		setBlue(0);
-		
-		// change some colors
-		// RED
-		for (int red = 25; red<=255; red+=deltaRed)
- 280:	ef 81       	ldd	r30, Y+7	; 0x07
- 282:	f8 85       	ldd	r31, Y+8	; 0x08
- 284:	29 85       	ldd	r18, Y+9	; 0x09
- 286:	3a 85       	ldd	r19, Y+10	; 0x0a
- 288:	e2 0f       	add	r30, r18
- 28a:	f3 1f       	adc	r31, r19
- 28c:	f8 87       	std	Y+8, r31	; 0x08
- 28e:	ef 83       	std	Y+7, r30	; 0x07
- 290:	ef 3f       	cpi	r30, 0xFF	; 255
- 292:	f1 05       	cpc	r31, r1
- 294:	11 f0       	breq	.+4      	; 0x29a <main+0x1b0>
- 296:	0c f0       	brlt	.+2      	; 0x29a <main+0x1b0>
- 298:	4c cf       	rjmp	.-360    	; 0x132 <main+0x48>
- 29a:	8b 84       	ldd	r8, Y+11	; 0x0b
- 29c:	9c 84       	ldd	r9, Y+12	; 0x0c
- 29e:	6d 84       	ldd	r6, Y+13	; 0x0d
- 2a0:	7e 84       	ldd	r7, Y+14	; 0x0e
- 2a2:	0f 81       	ldd	r16, Y+7	; 0x07
- 2a4:	18 85       	ldd	r17, Y+8	; 0x08
- 2a6:	11 27       	eor	r17, r17
- 2a8:	95 cf       	rjmp	.-214    	; 0x1d4 <main+0xea>
+ 1a2:	f7 01       	movw	r30, r14
+ 1a4:	91 83       	std	Z+1, r25	; 0x01
+ 1a6:	80 83       	st	Z, r24
+			setRed(Red);
+			wait(100);
+		}
+		for(;Blue >=1; Blue -=2){
+			setBlue(Blue);
+			wait(100);
+ 1a8:	84 e6       	ldi	r24, 0x64	; 100
+ 1aa:	90 e0       	ldi	r25, 0x00	; 0
+ 1ac:	80 df       	rcall	.-256    	; 0xae <wait>
 
-000002aa <_exit>:
- 2aa:	f8 94       	cli
+		for(; Red <=254; Red -=2){
+			setRed(Red);
+			wait(100);
+		}
+		for(;Blue >=1; Blue -=2){
+ 1ae:	f2 e0       	ldi	r31, 0x02	; 2
+ 1b0:	8f 1a       	sub	r8, r31
+ 1b2:	91 08       	sbc	r9, r1
+ 1b4:	8f ef       	ldi	r24, 0xFF	; 255
+ 1b6:	88 16       	cp	r8, r24
+ 1b8:	98 06       	cpc	r9, r24
+ 1ba:	89 f7       	brne	.-30     	; 0x19e <main+0xb4>
+ 1bc:	a7 cf       	rjmp	.-178    	; 0x10c <main+0x22>
 
-000002ac <__stop_program>:
- 2ac:	ff cf       	rjmp	.-2      	; 0x2ac <__stop_program>
+000001be <_exit>:
+ 1be:	f8 94       	cli
+
+000001c0 <__stop_program>:
+ 1c0:	ff cf       	rjmp	.-2      	; 0x1c0 <__stop_program>

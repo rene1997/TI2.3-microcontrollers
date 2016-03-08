@@ -72,72 +72,48 @@ int main( void )
 
 	while (1)
 	{
-		int deltaRed = 1;
-		int deltaBlue = 1;
-		int deltaGreen = 1;
-		setRed (0);
-		setGreen(0);
-		setBlue(0);
+		//start values
+		int Red = 255;
+		int Blue = 1;
+		int Green = 1;
+
+		//set values from start
+		setRed (Red);
+		setGreen(Green);
+		setBlue(Blue);
+
+		//first 60 degrees 
+		for(; Green <= 254; Green += 2){
+			setGreen(Green);
+			wait(100);
+		}
+		for(; Red >= 1; Red -=2){
+			setRed(Red);
+			wait(100);
+		}
+
+		for(; Blue <=254; Blue +=2){
+			setBlue(Blue);
+			wait(100);
+		}
+
+		for(; Green >=1; Green -=2){
+			setGreen(Green);
+			wait(100);
+		}
+
+		for(; Red <=254; Red -=2){
+			setRed(Red);
+			wait(100);
+		}
+		for(;Blue >=1; Blue -=2){
+			setBlue(Blue);
+			wait(100);
+		}
+
 		
 		// change some colors
 		// RED
-		for (int red = 0; red<=255; red+=deltaRed)
-		{
-			for(int green = 0 ; green <= 255; green +=deltaGreen)
-			{
-				for(int blue = 0; blue <= 255; blue += deltaBlue)
-				{
-				//set colors and deltablue + 2;
-					setRed( red );				// 8-bits PWM on pin OCR1a
-					setGreen(green);
-					setBlue(blue);
-					deltaBlue += 2;					// progressive steps up
-					wait(200);					// delay of 100 ms (busy waiting)
-				}
-				//reset deltablue 
-				deltaBlue = 1;
-				for (int blue = 255; blue>=0; blue-= deltaBlue)
-				{
-				//set colors and deltablue +2
-					setRed( red );				// 8-bits PWM on pin OCR1a
-					setGreen(green);
-					setBlue(blue);
-					deltaBlue += 2;					// progressive steps down
-					wait(200);					// delay of 100 ms (busy waiting)
-				}
-				//deltaGreen +2
-				deltaGreen +=2;
-				wait(200);
-			}
-			//reset deltaGreen
-			deltaGreen = 1;
-			for(int green = 255 ; green >= 0; green -=deltaGreen)
-			{
-				for(int blue = 25; blue <= 255; blue += deltaBlue)
-				{
-					setRed( red );				// 8-bits PWM on pin OCR1a
-					setGreen(green);
-					setBlue(blue);
-					deltaBlue += 2;					// progressive steps up
-					wait(200);					// delay of 100 ms (busy waiting)
-				}
-				deltaBlue = 0;
-				for (int blue = 255; blue>=0; blue-= deltaBlue)
-				{
-					setRed( red );				// 8-bits PWM on pin OCR1a
-					setGreen(green);
-					setBlue(blue);
-					deltaBlue += 2;					// progressive steps down
-					wait(50);					// delay of 100 ms (busy waiting)
-				}
-				deltaGreen +=2;
-				wait(200);
-			}
-			//reset deltagreen and deltaRed +2
-			deltaGreen = 1;
-			deltaRed +=2;
-			wait(100);	
-			
-		}
+		
 	} 
 }
