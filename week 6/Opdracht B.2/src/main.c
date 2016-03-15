@@ -49,7 +49,7 @@ int main( void )
 		PORTB ^= BIT(7);					// toggle bit 7 for testing
 
 		uart0_receiveString(buffer);		// receive string from uart
-		lcd_writeLine(c, 1);
+		lcd_writeLine(buffer, 1);
 		
 		// write string to LCD display
 	}

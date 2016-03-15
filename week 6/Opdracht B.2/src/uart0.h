@@ -20,6 +20,8 @@
 #include <util/delay.h>
 #include <avr/interrupt.h>
 
+#define F_CPU 8000000
+
 #define LF			0x0a					// ascii code for Line Feed
 #define CR			0x0d					// ascii code for Carriage Return
 #define BIT(x)		(1 << (x))
