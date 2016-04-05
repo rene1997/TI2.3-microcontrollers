@@ -19,6 +19,7 @@
 #include <util/delay.h>
 #include "main.h"
 #include <stdlib.h>
+#include "LCD.h"
 
 #define BIT(x) (1<<(x))	
 
@@ -28,6 +29,7 @@ POSITION allPositions[64];
 //last button pressed by user
 int lastPressed = -1;
 
+unsigned int score = 0;
 unsigned int seed = 0;
 
 void buttoninit(){
@@ -85,7 +87,17 @@ void changePosition(int direction){
 	}
 }
 
-
+void checkColission()
+{
+	if(allPositions[HEAD].x == allPositions[LOOT].x && allPositions[HEAD].y == allPositions[LOOT].y)
+	{
+		setLootPosition();
+		score++;
+		lcd_command(0x00);
+		lcd_writeLine(scoreText, 1);
+		lcd_writeLine(score, 2);
+	}
+}
 /******************************************************************/
 void twi_init(void)
 /* 
@@ -227,7 +239,8 @@ notes:			Looping forever, trashing the HT16K33
 Version :    	DMK, Initial code
 *******************************************************************/
 {
-	
+	init_lcd();
+	wait(25);
 	twi_init();		// Init TWI interface
 	buttoninit();	// Init buttons for snake
 
@@ -259,16 +272,20 @@ Version :    	DMK, Initial code
 	twi_position(allPositions[HEAD]);
 	
 	setLootPosition();
+	lcd_writeLine(scoreText, 1);
+	lcd_writeLine(score, 2);
 	
 	
 	while (1)
 	{
 		
 		checkinput();
+		checkColission();
 		twi_clear();
 		twi_position(allPositions[LOOT]);
 		twi_position(allPositions[HEAD]);
 		wait(1000);
+
 		
 		/*
 		//twi_clear();
