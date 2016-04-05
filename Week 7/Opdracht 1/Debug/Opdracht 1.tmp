@@ -1,0 +1,29 @@
+<ASSEMBLER_INFO>
+ <VERSION>2.1.57</VERSION>
+ <DEVICE>"ATmega128"</DEVICE>
+ <WORKING_DIR>C:\Users\rkeet\Documents\GitHub\TI2.3-microcontrollers\Week 7\Opdracht 1\Debug</WORKING_DIR>
+ <INCLUDE_PATH>
+  <DIR>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.0.90\avrasm\inc</DIR>
+  <DIR>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.0.90\avrasm\inc</DIR>
+  <DIR>C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avrassembler\Include</DIR>
+  <DIR></DIR>
+ </INCLUDE_PATH>
+ <SOURCE_FILE>C:\Users\rkeet\Documents\GitHub\TI2.3-microcontrollers\Week 7\Opdracht 1\main.asm</SOURCE_FILE>
+ <INCLUDED_FILES>
+  <FILE>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.0.90\avrasm\inc\m128def.inc</FILE>
+ </INCLUDED_FILES>
+ <OBJECT_FILES>
+  <FILE>C:\Users\rkeet\Documents\GitHub\TI2.3-microcontrollers\Week 7\Opdracht 1\Debug\Opdracht 1.obj</FILE>
+ </OBJECT_FILES>
+ <HEX_FILES>
+  <FILE>Opdracht 1.hex</FILE>
+ </HEX_FILES>
+ <OUTPUT_FILES>
+  <FILE>Opdracht 1.map</FILE>
+  <FILE>Opdracht 1.lss</FILE>
+ </OUTPUT_FILES>
+ <LABELS>
+  <main><FILE>C:\Users\rkeet\Documents\GitHub\TI2.3-microcontrollers\Week 7\Opdracht 1\main.asm</FILE><LINE>20</LINE></main>
+  <no_end><FILE>C:\Users\rkeet\Documents\GitHub\TI2.3-microcontrollers\Week 7\Opdracht 1\main.asm</FILE><LINE>32</LINE></no_end>
+ </LABELS>
+</ASSEMBLER_INFO>
