@@ -19,12 +19,13 @@
 #include <util/delay.h>
 #include "main.h"
 #include <stdlib.h>
-#include "LCD.h"
 
 #define BIT(x) (1<<(x))	
 
 
 POSITION allPositions[64];
+
+gameStatus status = MENU;
 
 //last button pressed by user
 int lastPressed = -1;
@@ -54,6 +55,11 @@ void checkinput(void){
 		lastPressed = LEFT;
 	}else if((PINC) & BIT(1)){		//go up
 		lastPressed = UP;
+	}else if((PINC) & BIT(0)){
+		if(status != PLAYING)
+		{
+			status = PLAYING;
+		}
 	}
 
 	changePosition(lastPressed);
@@ -93,9 +99,6 @@ void checkColission()
 	{
 		setLootPosition();
 		score++;
-		lcd_command(0x00);
-		lcd_writeLine(scoreText, 1);
-		lcd_writeLine(score, 2);
 	}
 }
 /******************************************************************/
@@ -183,6 +186,20 @@ void twi_position(POSITION position){
 	twi_stop();
 }
 
+void twi_write(char text[])
+{
+	int i = 0x00;
+	for(; i <= 0x0E; i += 0x02){
+		twi_clear();
+		twi_start();
+		twi_tx(0xE0);	// Display I2C addres + R/W bit
+		twi_tx(i);	// Address
+		twi_tx(text[1]);	// data
+		twi_stop();
+		wait(1000);
+	}
+}
+
 /******************************************************************/
 void twi_tx(unsigned char data)
 /* 
@@ -239,7 +256,6 @@ notes:			Looping forever, trashing the HT16K33
 Version :    	DMK, Initial code
 *******************************************************************/
 {
-	init_lcd();
 	wait(25);
 	twi_init();		// Init TWI interface
 	buttoninit();	// Init buttons for snake
@@ -272,20 +288,27 @@ Version :    	DMK, Initial code
 	twi_position(allPositions[HEAD]);
 	
 	setLootPosition();
-	lcd_writeLine(scoreText, 1);
-	lcd_writeLine(score, 2);
-	
-	
+
 	while (1)
 	{
-		
 		checkinput();
-		checkColission();
-		twi_clear();
-		twi_position(allPositions[LOOT]);
-		twi_position(allPositions[HEAD]);
-		wait(1000);
+		switch(status)
+		{
+			case MENU:
+				twi_write(Text);
+				break;
 
+			case PLAYING:
+				checkColission();
+				twi_clear();
+				twi_position(allPositions[LOOT]);
+				twi_position(allPositions[HEAD]);
+				wait(1000);
+				break;
+
+			case GAMEOVER:
+				break;
+		}
 		
 		/*
 		//twi_clear();
