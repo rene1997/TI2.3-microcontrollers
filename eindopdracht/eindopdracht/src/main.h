@@ -14,6 +14,9 @@
 #define DOWN	2
 #define LEFT	3
 
+#define LOOT	0
+#define HEAD	1
+
 typedef struct {
 	unsigned char x;
 	unsigned char y;
