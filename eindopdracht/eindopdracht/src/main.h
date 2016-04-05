@@ -22,9 +22,11 @@ typedef struct {
 	unsigned char y;
 }POSITION;
 
+typedef enum {MENU, PLAYING, GAMEOVER} gameStatus; 
+
 int yPositions[8] = {0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01};
 int xPositions[8] = {0x00, 0x02, 0x04, 0x06, 0x08, 0x0A, 0x0C, 0x0E};
-char scoreText[6] = "Score:"; 
+char Text[2] = {0xff, 0x55, 0xaa};
 
 //functions:
 void buttoninit(void);
@@ -35,6 +37,7 @@ void twi_start(void);
 void twi_stop(void);
 void twi_clear(void);
 void twi_fill(void);
+void twi_write(char text[]);
 void twi_tx(unsigned char);
 void setLootPosition();
 void wait(int ms);
