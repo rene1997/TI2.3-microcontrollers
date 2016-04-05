@@ -18,13 +18,21 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include "main.h"
+#include <stdlib.h>
 
 #define BIT(x) (1<<(x))	
 
-POSITION position;
+POSITION allPositions[64];
 
-//
-int lastPressed = 0;
+
+POSITION snakePosition;
+
+POSITION lootPosition;
+
+//last button pressed by user
+int lastPressed = -1;
+
+unsigned int seed = 0;
 
 void buttoninit(){
 	DDRB = 0x00;	//set port B complete input
@@ -35,7 +43,10 @@ void buttoninit(){
  *this function checks the buttons for input
  */
 void checkinput(void){
-	
+	//make seed for random loot
+	seed ++;
+	if(seed > 10000)
+		seed = 0;
 
 	if((PINB) & BIT(0)){			//go right
 		lastPressed = RIGHT;
@@ -54,24 +65,24 @@ void changePosition(int direction){
 	switch(direction)
 	{
 		case RIGHT:
-			if(position.x >0)
-				position.x -= 0x02;
+			if(snakePosition.x >0)
+				snakePosition.x -= 0x02;
 			break;
 		case DOWN:
-			if(position.y < 0x40)
-				position.y = (position.y << 1);
-			else if(position.y == 0x80)
-				position.y = 0x01;
+			if(snakePosition.y < 0x40)
+				snakePosition.y = (snakePosition.y << 1);
+			else if(snakePosition.y == 0x80)
+				snakePosition.y = 0x01;
 			break;
 		case LEFT:
-			if(position.x < 0x0E)
-				position.x += 0x02;
+			if(snakePosition.x < 0x0E)
+				snakePosition.x += 0x02;
 			break;
 		case UP:
-			if(position.y == 0x01){		//0x02 == second row
-				position.y = 0x80;		//0x80 == first row
-			}else if(position.y >=0x02 && position.y != 0x80)
-				position.y = (position.y >>1);
+			if(snakePosition.y == 0x01){		//0x02 == second row
+				snakePosition.y = 0x80;		//0x80 == first row
+			}else if(snakePosition.y >=0x02 && snakePosition.y != 0x80)
+				snakePosition.y = (snakePosition.y >>1);
 			break;
 		default:
 			break;
@@ -156,6 +167,10 @@ void twi_position(POSITION position){
 	twi_start();
 	twi_tx(0xE0);	// Display I2C addres + R/W bit
 	twi_tx(position.x);	// Address
+	if(lootPosition.x == snakePosition.x){
+			position.y = lootPosition.y + snakePosition.y;
+	}
+		
 	twi_tx(position.y);	// data
 	twi_stop();
 }
@@ -198,6 +213,14 @@ Version :    	DMK, Initial code
 	}
 }
 
+void setLootPosition(){
+	srand(seed);
+	//x value of the loot
+	lootPosition.x = xPositions[rand() % 8]; //random index from xPositions array
+	//y value of the loot
+	lootPosition.y = yPositions[rand() % 8]; //random index from yPositions array
+}
+
 /******************************************************************/
 int main( void )
 /* 
@@ -235,15 +258,20 @@ Version :    	DMK, Initial code
 
 	twi_clear();
 
-	position.x = 0x08;
-	position.y = 0x08;
-	twi_position(position);
+	snakePosition.x = 0x08;
+	snakePosition.y = 0x08;
+	twi_position(snakePosition);
+	
+	setLootPosition();
+	
+	
 	while (1)
 	{
 		
 		checkinput();
 		twi_clear();
-		twi_position(position);
+		twi_position(lootPosition);
+		twi_position(snakePosition);
 		wait(1000);
 		
 		/*
