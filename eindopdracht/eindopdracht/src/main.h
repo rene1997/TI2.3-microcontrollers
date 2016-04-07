@@ -9,6 +9,9 @@
 #ifndef INCFILE1_H_
 #define INCFILE1_H_
 
+
+#define BIT(x) (1<<(x))	
+
 #define UP		0
 #define RIGHT	1
 #define DOWN	2
@@ -24,22 +27,22 @@ typedef struct {
 
 typedef enum {MENU, PLAYING, GAMEOVER} gameStatus; 
 
-int yPositions[8] = {0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01};
-int xPositions[8] = {0x00, 0x02, 0x04, 0x06, 0x08, 0x0A, 0x0C, 0x0E};
-char Text[2] = {0xff, 0x55, 0xaa};
+POSITION allPositions[64];
+
+extern int snakelength;
+extern int lastPressed;
+
+
+//extern char MatrixText[3];
 
 //functions:
 void buttoninit(void);
 void checkinput(void);
-void changePosition(int);
-void twi_init(void);
-void twi_start(void);
-void twi_stop(void);
-void twi_clear(void);
-void twi_fill(void);
-void twi_write(char text[]);
-void twi_tx(unsigned char);
+void changePosition(int, int);
 void setLootPosition();
+void addSmaleLength();
+void checkColission();
+int checkPositions(POSITION a, POSITION b);
 void wait(int ms);
 
 
