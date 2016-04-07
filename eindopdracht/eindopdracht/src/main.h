@@ -28,6 +28,7 @@ typedef struct {
 typedef enum {MENU, PLAYING, GAMEOVER} gameStatus; 
 
 POSITION allPositions[64];
+char stringline[16];
 
 extern int snakelength;
 extern int lastPressed;

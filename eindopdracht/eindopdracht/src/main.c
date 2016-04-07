@@ -20,8 +20,9 @@
 #include <stdlib.h>
 #include "main.h"
 #include "matrix.h"
+#include "LCD.h"
 
-gameStatus status = PLAYING;
+gameStatus status = MENU;
 snakelength = 1;
 lastPressed = -1;
 
@@ -46,15 +47,15 @@ void checkinput(){
 	if(seed > 10000)
 		seed = 0;
 
-	if((PINB) & BIT(0)){			//go right
+	if((PINA) & BIT(0)){			//go right
 		lastPressed = RIGHT;
-	}else if((PINB) & BIT(1)){		//go down
+	}else if((PINA) & BIT(1)){		//go down
 		lastPressed = DOWN;
-	}else if((PINB) & BIT(2)){		//go left
+	}else if((PINA) & BIT(2)){		//go left
 		lastPressed = LEFT;
-	}else if((PINC) & BIT(1)){		//go up
+	}else if((PINB) & BIT(1)){		//go up
 		lastPressed = UP;
-	}else if((PINC) & BIT(0)){
+	}else if((PINB) & BIT(0)){
 		if(status != PLAYING)
 		{
 			status = PLAYING;
@@ -99,42 +100,26 @@ void changePosition(int index, int direction){
 }
 
 void addSnakeLength(){
-	//add length of array
 	snakelength ++;
-	//POSITION position;
-	//position.x = allPositions[snakelength-1].x;
-	//position.y = allPositions[snakelength-1].y;
-	//allPositions[snakelength] = position;
-	//changePosition(HEAD,lastPressed); 
-
-
 }
 
 
 void checkColission()
 {
-	if(allPositions[HEAD].x == allPositions[LOOT].x && allPositions[HEAD].y == allPositions[LOOT].y)
+	if(checkPositions(allPositions[HEAD], allPositions[LOOT]) ==1)
 	{
-		setLootPosition();
 		addSnakeLength();
+		setLootPosition();
+		
 		score++;
 		return;
 	}
+
 	for(int i = 1; i <= snakelength; i++){
 		for(int j = 1; j <= snakelength; j ++){
-			if(allPositions[i].x == allPositions[j].x && allPositions[i].y == allPositions[j].y && i != j){
+			if(checkPositions(allPositions[i],allPositions[j]) && i != j){
 				//game over:
-				snakelength = 1;
-				allPositions[HEAD].y = 0x08;
-				allPositions[HEAD].x = 0x08;
-				score = 0;
-				twi_fill();
-				wait(1000);
-				twi_clear();
-				wait(1000);
-				twi_fill();
-				wait(1000);
-				twi_clear();	
+				status = GAMEOVER;	
 			}
 		}
 	}
@@ -198,6 +183,9 @@ Version :    	DMK, Initial code
 	//init dot
 	initMatrix();
 
+	//init lcd
+	init_lcd();
+
 	//set position of head snake
 	allPositions[HEAD].x = 0x08;
 	allPositions[HEAD].y = 0x08;
@@ -210,16 +198,21 @@ Version :    	DMK, Initial code
 	//set loot at random position
 	setLootPosition();
 	//twi_position(allPositions[HEAD]);
-
+	lcd_writeLine("b0 to start", 0);
+	lcd_writeLine("ctrl:A0,A1,A2,B1", 2);
 	while (1)
 	{
 		switch(status)
 		{
 			case MENU:
+				
+				checkinput();
+				wait(250);
 				//twi_write(MatrixText);
 				break;
 
 			case PLAYING:
+				lcd_writeLine("in game         ", 0);
 				//refresh locations of the snake:
 				for(int i = snakelength; i > 0; i--)
 					changePosition(i, lastPressed);
@@ -233,7 +226,7 @@ Version :    	DMK, Initial code
 				for(int i = 0; i <=snakelength; i ++)
 					twi_position(allPositions[i]);
 				
-				for(int i = 0; i < 30; i++){
+				for(int i = 0; i < 20; i++){
 					checkinput();
 					wait(100);
 				}
@@ -241,6 +234,23 @@ Version :    	DMK, Initial code
 				break;
 
 			case GAMEOVER:
+				lcd_writeLine("GAME OVER!  s:", 0);
+				lcd_writeChar('0' + score/10);
+				lcd_writeChar('0' + score %10);
+
+				snakelength = 1;
+				lastPressed = -1;
+				allPositions[HEAD].y = 0x08;
+				allPositions[HEAD].x = 0x08;
+				score = 0;
+				for(int i = 0; i <5; i++){
+					twi_fill();
+					wait(1000);
+					twi_clear();
+					wait(1000);
+				}
+				status = MENU;
+				//checkinput()
 				break;
 		}
 	}
