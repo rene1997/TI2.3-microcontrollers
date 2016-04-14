@@ -51,7 +51,6 @@ int main( void )
 	while (1)
 	{
 		PORTB = ADCL;			// Show MSB/LSB (bit 10:0) of ADC
-		PORTA = ADCH;
 		wait(100);				// every 100 ms (busy waiting)
 		sprintf(str, "Temperatuur: %d",	binary_decimal(ADCL)); //converteer binair to decimal and put it in a char array
 		lcd_writeLine(str, 1);
