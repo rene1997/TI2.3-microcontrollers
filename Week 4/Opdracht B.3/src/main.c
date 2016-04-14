@@ -1,7 +1,8 @@
-#include <asf.h>
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
+#include <stdio.h>
+#include "LCD.h"
 
 #define BIT(x)	(1 << (x))
 
@@ -16,32 +17,44 @@ void wait( int ms )
 }
 
 
-//initialize ADC: 10 bits, free running, single ended, continuous mode
-void adcInit(){
-
-	//channel 1 at PF1
-	ADMUX = 0b01100001;
-
-	//free running, division by 64
-	ADCSRA = 0b11100110;
+// Initialize ADC: 10-bits (left justified), free running
+void adcInit( void )
+{
+	ADMUX = 0b01100001;			// AREF=VCC, result left adjusted, channel1 at pin PF1
+	ADCSRA = 0b11100110;		// ADC-enable, no interrupt, start, free running, division by 64
 }
 
+int binary_decimal(int n) /* Function to convert binary to decimal.*/
 
-int main (void)
 {
-	board_init();
-	DDRF = 0x00;	//set port F input
-	DDRA = 0xFF;	//set port A output
-	DDRB = 0xFF;	//set port B output
-
-	//init adc
-	adcInit();
-
-	while(1){
-		PORTB = ADCL;
-		PORTA = ADCH;
+	int decimal=0, i=0, rem;
+	while (n!=0)
+	{
+		rem = n%10;
+		n/=10;
+		decimal += rem*pow(2,i);
+		++i;
 	}
+	return decimal;
+}
 
+// Main program: ADC at PF1
+int main( void )
+{
+	DDRF = 0x00;				// set PORTF for input (ADC)
+	DDRA = 0xFF;				// set PORTA for output 
+	DDRB = 0xFF;				// set PORTB for output
+	adcInit();					// initialize ADC
+	init_lcd();
+	char str[20];
 
-	
+	while (1)
+	{
+		PORTB = ADCL;			// Show MSB/LSB (bit 10:0) of ADC
+		PORTA = ADCH;
+		wait(100);				// every 100 ms (busy waiting)
+		sprintf(str, "Temperatuur: %d",	binary_decimal(ADCL)); //converteer binair to decimal and put it in a char array
+		lcd_writeLine(str, 1);
+		wait(1000);
+	}
 }
